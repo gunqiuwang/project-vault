@@ -1,0 +1,25 @@
+#!/bin/bash
+# Agent Vault — Post-commit reminder
+# Install: cp templates/git-hook-post-commit .git/hooks/post-commit && chmod +x .git/hooks/post-commit
+#
+# Reminds you to sync the vault when source files change but vault files don't.
+
+CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null)
+
+if [ -z "$CHANGED_FILES" ]; then
+  exit 0
+fi
+
+# Check if source files changed
+SOURCE_CHANGED=$(echo "$CHANGED_FILES" | grep -cE '\.(py|js|ts|go|rs|java|jsx|tsx|vue|swift|kt|rb|php|c|cpp|h)$' || true)
+
+# Check if vault files changed
+VAULT_CHANGED=$(echo "$CHANGED_FILES" | grep -c "docs/vault/" || true)
+
+if [ "$SOURCE_CHANGED" -gt 0 ] && [ "$VAULT_CHANGED" -eq 0 ]; then
+  echo ""
+  echo "⚠️  Agent Vault: Source files changed but vault not updated."
+  echo "   Consider running: vault sync"
+  echo "   Changed: $(echo "$CHANGED_FILES" | grep -E '\.(py|js|ts|go|rs|java|jsx|tsx|vue)$' | head -3 | tr '\n' ', ')"
+  echo ""
+fi

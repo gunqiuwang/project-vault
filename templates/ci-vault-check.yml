@@ -1,0 +1,77 @@
+# Agent Vault — GitHub Actions Health Check
+# Copy to .github/workflows/vault-check.yml
+#
+# Runs on every PR to catch stale vaults before merge.
+
+name: Agent Vault Health Check
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'app/**'
+      - 'lib/**'
+      - 'package.json'
+      - 'requirements.txt'
+      - 'pyproject.toml'
+      - 'Cargo.toml'
+      - 'go.mod'
+
+jobs:
+  vault-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check vault files exist
+        run: |
+          MISSING=0
+          for f in \
+            00_HOME.md \
+            01_CURRENT_BASELINE.md \
+            02_DECISION_LOG.md \
+            03_DO_NOT_TOUCH.md \
+            04_ARCHITECTURE.md \
+            05_COMMANDS_AND_FILES.md \
+            06_DEPLOYMENT.md \
+            07_TESTING_AND_VERIFICATION.md \
+            08_INCIDENTS_AND_FIXES.md \
+            09_AGENT_PROMPTS.md \
+            10_REPORT_INDEX.md \
+            VAULT_CHANGELOG.md; do
+            if [ ! -f "docs/vault/$f" ]; then
+              echo "❌ Missing: docs/vault/$f"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+          if [ $MISSING -gt 0 ]; then
+            echo "❌ $MISSING vault files missing"
+            exit 1
+          fi
+          echo "✅ All vault files present"
+
+      - name: Check baseline freshness
+        run: |
+          BASELINE_HEAD=$(grep -oP '(?<=HEAD Commit.*`)[a-f0-9]+' docs/vault/01_CURRENT_BASELINE.md | head -1 || echo "unknown")
+          CURRENT_HEAD=$(git rev-parse --short HEAD)
+          if [ "$BASELINE_HEAD" != "$CURRENT_HEAD" ]; then
+            echo "⚠️  Vault baseline may be stale"
+            echo "   Vault HEAD: $BASELINE_HEAD"
+            echo "   Current HEAD: $CURRENT_HEAD"
+            echo "   Consider running: vault sync"
+          else
+            echo "✅ Baseline is current"
+          fi
+
+      - name: Check vault changed in PR
+        run: |
+          VAULT_CHANGED=$(git diff --name-only origin/main...HEAD | grep -c "docs/vault/" || true)
+          SOURCE_CHANGED=$(git diff --name-only origin/main...HEAD | grep -cE '\.(py|js|ts|go|rs|java|json|toml|yaml|yml)$' || true)
+          if [ "$SOURCE_CHANGED" -gt 0 ] && [ "$VAULT_CHANGED" -eq 0 ]; then
+            echo "⚠️  Source files changed but vault not updated in this PR"
+            echo "   Consider adding vault sync to this PR"
+          elif [ "$VAULT_CHANGED" -gt 0 ]; then
+            echo "✅ Vault updated in this PR"
+          else
+            echo "ℹ️  No source or vault changes detected"
+          fi
