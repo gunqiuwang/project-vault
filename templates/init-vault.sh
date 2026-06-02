@@ -138,58 +138,144 @@ echo "🔍 Scanning project..."
 BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
 COMMIT_SHORT=$(git rev-parse --short HEAD 2>/dev/null || echo "no commits")
 COMMIT_MSG=$(git log --oneline -1 2>/dev/null || echo "no commits")
+RECENT_COMMITS=$(git log --oneline -5 2>/dev/null || echo "no commits")
 
-# Tech stack detection
-TECH_STACK="Unknown"
-if [ -f "package.json" ]; then
-  if grep -q "react" package.json 2>/dev/null; then TECH_STACK="React"
-  elif grep -q "vue" package.json 2>/dev/null; then TECH_STACK="Vue"
-  elif grep -q "next" package.json 2>/dev/null; then TECH_STACK="Next.js"
-  elif grep -q "express" package.json 2>/dev/null; then TECH_STACK="Express"
-  else TECH_STACK="Node.js"
+# --- Tech stack detection (multi-stack aware) ---
+FRONTEND_STACK="Unknown"
+BACKEND_STACK=""
+IS_FULLSTACK=false
+
+# Frontend detection
+if [ -f "miniprogram/app.json" ] || [ -f "project.config.json" ]; then
+  FRONTEND_STACK="WeChat Mini Program"
+elif [ -f "package.json" ]; then
+  if grep -q "react" package.json 2>/dev/null; then FRONTEND_STACK="React"
+  elif grep -q "vue" package.json 2>/dev/null; then FRONTEND_STACK="Vue"
+  elif grep -q "next" package.json 2>/dev/null; then FRONTEND_STACK="Next.js"
+  elif grep -q "express" package.json 2>/dev/null; then FRONTEND_STACK="Express"
+  else FRONTEND_STACK="Node.js"
   fi
-elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
-  if grep -q "django" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="Django"
-  elif grep -q "flask" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="Flask"
-  elif grep -q "fastapi" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="FastAPI"
-  else TECH_STACK="Python"
-  fi
-elif [ -f "Cargo.toml" ]; then TECH_STACK="Rust"
-elif [ -f "go.mod" ]; then TECH_STACK="Go"
-elif [ -f "index.html" ]; then TECH_STACK="HTML/CSS/JS"
-elif [ -f "project.config.json" ] && grep -q "miniprogram" project.config.json 2>/dev/null; then TECH_STACK="WeChat Mini Program"
+elif [ -f "index.html" ]; then FRONTEND_STACK="HTML/CSS/JS"
 fi
-echo "  Tech stack: $TECH_STACK"
 
-# Scan assets
+# Backend detection
+if [ -d "backend" ] && [ -f "backend/requirements.txt" ]; then
+  IS_FULLSTACK=true
+  if grep -q "fastapi" backend/requirements.txt 2>/dev/null; then BACKEND_STACK="FastAPI"
+  elif grep -q "django" backend/requirements.txt 2>/dev/null; then BACKEND_STACK="Django"
+  elif grep -q "flask" backend/requirements.txt 2>/dev/null; then BACKEND_STACK="Flask"
+  else BACKEND_STACK="Python"
+  fi
+elif [ -d "backend" ] && [ -f "backend/package.json" ]; then
+  IS_FULLSTACK=true
+  BACKEND_STACK="Node.js"
+elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
+  if grep -q "fastapi" requirements.txt pyproject.toml 2>/dev/null; then BACKEND_STACK="FastAPI"
+  elif grep -q "django" requirements.txt pyproject.toml 2>/dev/null; then BACKEND_STACK="Django"
+  elif grep -q "flask" requirements.txt pyproject.toml 2>/dev/null; then BACKEND_STACK="Flask"
+  else BACKEND_STACK="Python"
+  fi
+elif [ -f "Cargo.toml" ]; then BACKEND_STACK="Rust"
+elif [ -f "go.mod" ]; then BACKEND_STACK="Go"
+fi
+
+if [ "$IS_FULLSTACK" = true ]; then
+  TECH_STACK="$FRONTEND_STACK + $BACKEND_STACK"
+else
+  TECH_STACK="$FRONTEND_STACK"
+fi
+[ "$BACKEND_STACK" != "" ] && TECH_STACK="${FRONTEND_STACK} + ${BACKEND_STACK}"
+echo "  Tech stack: $TECH_STACK"
+echo "  Full-stack: $IS_FULLSTACK"
+
+# --- Scan ALL asset directories (not just assets/) ---
 ASSET_COUNT=0
 AUDIO_COUNT=0
 IMAGE_COUNT=0
 STORY_COUNT=0
-if [ -d "assets" ]; then
-  ASSET_COUNT=$(find assets -type f 2>/dev/null | wc -l)
-  AUDIO_COUNT=$(find assets -name "*.wav" -o -name "*.mp3" -o -name "*.ogg" 2>/dev/null | wc -l)
-  IMAGE_COUNT=$(find assets -name "*.png" -o -name "*.jpg" -o -name "*.webp" -o -name "*.svg" 2>/dev/null | wc -l)
-  STORY_COUNT=$(find assets -name "*.meta.json" 2>/dev/null | wc -l)
-  echo "  Assets: $ASSET_COUNT files ($AUDIO_COUNT audio, $IMAGE_COUNT images, $STORY_COUNT content items)"
+TAROT_COUNT=0
+
+for asset_dir in assets miniprogram/images miniprogram/assets public/images static/images; do
+  if [ -d "$asset_dir" ]; then
+    count=$(find "$asset_dir" -type f 2>/dev/null | wc -l)
+    ASSET_COUNT=$((ASSET_COUNT + count))
+    AUDIO_COUNT=$((AUDIO_COUNT + $(find "$asset_dir" -name "*.wav" -o -name "*.mp3" -o -name "*.ogg" 2>/dev/null | wc -l)))
+    IMAGE_COUNT=$((IMAGE_COUNT + $(find "$asset_dir" -name "*.png" -o -name "*.jpg" -o -name "*.webp" -o -name "*.svg" -o -name "*.jpeg" 2>/dev/null | wc -l)))
+    STORY_COUNT=$((STORY_COUNT + $(find "$asset_dir" -name "*.meta.json" 2>/dev/null | wc -l)))
+  fi
+done
+
+# Tarot-specific detection
+if [ -d "miniprogram/images/tarot" ]; then
+  TAROT_COUNT=$(find miniprogram/images/tarot -type f 2>/dev/null | wc -l)
+  echo "  Tarot cards: $TAROT_COUNT"
 fi
 
-# Scan source files
-SOURCE_COUNT=$(find . -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.rs" -o -name "*.go" -o -name "*.wxml" -o -name "*.wxss" -o -name "*.html" -o -name "*.css" 2>/dev/null | grep -v node_modules | grep -v .git | wc -l)
+echo "  Assets: $ASSET_COUNT files ($AUDIO_COUNT audio, $IMAGE_COUNT images, $STORY_COUNT content items)"
+
+# --- Scan source files (exclude venv/node_modules/.git) ---
+SOURCE_COUNT=$(find . -type f \( -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.rs" -o -name "*.go" -o -name "*.wxml" -o -name "*.wxss" -o -name "*.html" -o -name "*.css" -o -name "*.vue" -o -name "*.jsx" -o -name "*.tsx" \) ! -path "*/.git/*" ! -path "*/node_modules/*" ! -path "*/venv/*" ! -path "*/__pycache__/*" ! -path "*/.venv/*" 2>/dev/null | wc -l)
 echo "  Source files: $SOURCE_COUNT"
 
-# Scan docs
+# --- Scan design files ---
+DESIGN_COUNT=0
+DESIGN_FILES=""
+if [ -d "design" ]; then
+  DESIGN_COUNT=$(find design -name "*.html" -o -name "*.fig" -o -name "*.sketch" 2>/dev/null | wc -l)
+  DESIGN_FILES=$(find design -name "*.html" -type f 2>/dev/null | head -5 | xargs -I{} basename {} .html)
+  echo "  Design files: $DESIGN_COUNT ($DESIGN_FILES)"
+fi
+
+# --- Scan documentation files ---
 DOC_FILES=""
-for doc in README.md "项目构想.md" PRD.md "设计文档.md" PROJECT-REVIEW.md; do
+for doc in README.md "项目构想.md" PRD.md "设计文档.md" PROJECT-REVIEW.md "brand-spec.md" "animation-spec.md" "database-api.md"; do
   if [ -f "$doc" ]; then
     DOC_FILES="$DOC_FILES $doc"
   fi
+  # Also check in subdirectories
+  find . -maxdepth 3 -name "$doc" ! -path "./.git/*" 2>/dev/null | while read -r f; do
+    DOC_FILES="$DOC_FILES $f"
+  done
 done
 echo "  Docs found:$DOC_FILES"
 
-# Detect commands from package.json
+# --- Extract pages from WeChat app.json ---
+PAGES=""
+PAGE_COUNT=0
+if [ -f "miniprogram/app.json" ]; then
+  PAGES=$(python3 -c "
+import json
+with open('miniprogram/app.json') as f:
+    d = json.load(f)
+for p in d.get('pages',[]):
+    print(p)
+" 2>/dev/null || echo "")
+  PAGE_COUNT=$(echo "$PAGES" | grep -c "/" 2>/dev/null || echo "0")
+  echo "  Pages: $PAGE_COUNT detected"
+elif [ -f "app.json" ]; then
+  PAGES=$(python3 -c "
+import json
+with open('app.json') as f:
+    d = json.load(f)
+for p in d.get('pages',[]):
+    print(p)
+" 2>/dev/null || echo "")
+  PAGE_COUNT=$(echo "$PAGES" | grep -c "/" 2>/dev/null || echo "0")
+  echo "  Pages: $PAGE_COUNT detected"
+fi
+
+# --- Extract backend dependencies ---
+BACKEND_DEPS=""
+if [ -f "backend/requirements.txt" ]; then
+  BACKEND_DEPS=$(cat backend/requirements.txt 2>/dev/null | grep -v "^#" | grep -v "^$" | sed 's/>=.*$//' | tr '\n' ', ' | sed 's/,$//')
+  echo "  Backend deps: $BACKEND_DEPS"
+elif [ -f "requirements.txt" ]; then
+  BACKEND_DEPS=$(cat requirements.txt 2>/dev/null | grep -v "^#" | grep -v "^$" | sed 's/>=.*$//' | tr '\n' ', ' | sed 's/,$//')
+  echo "  Backend deps: $BACKEND_DEPS"
+fi
+
+# --- Detect commands from package.json ---
 COMMANDS_SAFE=""
-COMMANDS_DEPLOY=""
 if [ -f "package.json" ]; then
   COMMANDS_SAFE=$(python3 -c "
 import json
@@ -200,7 +286,7 @@ for k,v in d.get('scripts',{}).items():
 " 2>/dev/null || echo "")
 fi
 
-# Detect sensitive patterns
+# --- Detect sensitive patterns ---
 SENSITIVE_PATTERNS=""
 if [ -f ".env.example" ]; then
   SENSITIVE_PATTERNS=$(grep -oP '^[A-Z_]+=' .env.example 2>/dev/null | sed 's/=$//' | head -10 || true)
@@ -209,28 +295,13 @@ if [ -f ".env" ]; then
   echo "  ⚠️  .env file exists — verify it's in .gitignore!"
 fi
 
-# Detect naming patterns
+# --- Detect naming patterns ---
 NAMING_PATTERN=""
 if [ -d "assets" ]; then
   SAMPLE=$(find assets -name "*.meta.json" -type f 2>/dev/null | head -3 | xargs -I{} basename {} .meta.json)
   if [ -n "$SAMPLE" ]; then
     NAMING_PATTERN=$(echo "$SAMPLE" | head -1 | sed 's/[0-9]/X/g')
     echo "  Naming pattern: $NAMING_PATTERN"
-  fi
-fi
-
-# Count pages (WeChat mini-program)
-PAGES=""
-if [ -f "app.json" ]; then
-  PAGES=$(python3 -c "
-import json
-with open('app.json') as f:
-    d = json.load(f)
-for p in d.get('pages',[]):
-    print(f'  - {p}')
-" 2>/dev/null || echo "")
-  if [ -n "$PAGES" ]; then
-    echo "  Pages:$(echo "$PAGES" | wc -l) detected"
   fi
 fi
 
@@ -262,9 +333,11 @@ aliases: ["$PROJECT_NAME", "$PROJECT_NAME Home"]
 | **Project** | $PROJECT_NAME |
 | **Phase** | $PHASE |
 | **Tech Stack** | $TECH_STACK |
+| **Full-stack** | $IS_FULLSTACK |
 | **Branch** | $BRANCH |
-| **Last Commit** | $COMMIT_SHORT |
+| **Last Commit** | \`$COMMIT_SHORT\` |
 | **Source Files** | $SOURCE_COUNT |
+| **Assets** | $ASSET_COUNT files |
 | **Last Updated** | $TODAY |
 EOF
 
@@ -274,12 +347,27 @@ cat >> docs/vault/00_HOME.md << EOF
 
 ## Content Inventory
 
-| Metric | Count |
-|--------|-------|
+| Category | Count |
+|----------|-------|
 | Total assets | $ASSET_COUNT |
-| Audio files | $AUDIO_COUNT |
-| Image files | $IMAGE_COUNT |
+| Images | $IMAGE_COUNT |
+| Audio | $AUDIO_COUNT |
 | Content items | $STORY_COUNT |
+EOF
+[ "$TAROT_COUNT" -gt 0 ] && echo "| Tarot cards | $TAROT_COUNT |" >> docs/vault/00_HOME.md
+[ "$PAGE_COUNT" -gt 0 ] && echo "| Pages | $PAGE_COUNT |" >> docs/vault/00_HOME.md
+[ "$DESIGN_COUNT" -gt 0 ] && echo "| Design files | $DESIGN_COUNT |" >> docs/vault/00_HOME.md
+fi
+
+# Add recent activity if available
+if [ -n "$RECENT_COMMITS" ] && [ "$RECENT_COMMITS" != "no commits" ]; then
+cat >> docs/vault/00_HOME.md << EOF
+
+## Recent Activity
+
+\`\`\`
+$RECENT_COMMITS
+\`\`\`
 EOF
 fi
 
@@ -356,11 +444,13 @@ reviewed_by: unreviewed
 
 ## Capabilities
 
-> Customize this section with what the project can do right now.
+> Customize with what the project can do right now.
 
-## Known Issues
+## Recently Completed
 
-> List known bugs or incomplete features here.
+\`\`\`
+$RECENT_COMMITS
+\`\`\`
 
 ## Must NOT Regress
 
@@ -449,12 +539,52 @@ reviewed_by: unreviewed
 
 | Layer | Technology |
 |-------|-----------|
-| Stack | $TECH_STACK |
+| Frontend | $FRONTEND_STACK |
+EOF
+
+if [ -n "$BACKEND_STACK" ]; then
+echo "| Backend | $BACKEND_STACK |" >> docs/vault/04_ARCHITECTURE.md
+fi
+
+cat >> docs/vault/04_ARCHITECTURE.md << EOF
 | Source files | $SOURCE_COUNT |
+| Assets | $ASSET_COUNT |
 
 ## Main Structure
 
 > Customize with your project's directory structure.
+
+EOF
+
+# Add page list if detected
+if [ -n "$PAGES" ] && [ "$PAGE_COUNT" -gt 0 ]; then
+echo "### Pages ($PAGE_COUNT)" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+echo "\`\`\`" >> docs/vault/04_ARCHITECTURE.md
+echo "$PAGES" >> docs/vault/04_ARCHITECTURE.md
+echo "\`\`\`" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+fi
+
+# Add backend deps if detected
+if [ -n "$BACKEND_DEPS" ]; then
+echo "### Backend Dependencies" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+echo "\`$BACKEND_DEPS\`" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+fi
+
+# Add design files if detected
+if [ "$DESIGN_COUNT" -gt 0 ]; then
+echo "### Design Files ($DESIGN_COUNT)" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+echo "\`\`\`" >> docs/vault/04_ARCHITECTURE.md
+ls design/*.html 2>/dev/null | head -10 >> docs/vault/04_ARCHITECTURE.md
+echo "\`\`\`" >> docs/vault/04_ARCHITECTURE.md
+echo "" >> docs/vault/04_ARCHITECTURE.md
+fi
+
+cat >> docs/vault/04_ARCHITECTURE.md << EOF
 
 ## Source Documentation
 
@@ -464,7 +594,6 @@ EOF
 
 if [ -n "$DOC_FILES" ]; then
   echo "" >> docs/vault/04_ARCHITECTURE.md
-  echo "Linked docs:" >> docs/vault/04_ARCHITECTURE.md
   for doc in $DOC_FILES; do
     echo "- [[$doc]]" >> docs/vault/04_ARCHITECTURE.md
   done
