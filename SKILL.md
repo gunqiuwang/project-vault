@@ -1,7 +1,7 @@
 ---
 name: project-vault
 description: "Use when starting any new project, onboarding an existing codebase, or syncing project knowledge after changes. Creates and maintains a structured knowledge vault (docs/vault/) with quality signals, orphan detection, project phases, and lifecycle management. Human-visual + agent-executable project operating system."
-version: 5.0.0
+version: 5.1.0
 author: guoku
 license: MIT
 platforms: [linux, macos, windows, wsl]
