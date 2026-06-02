@@ -42,9 +42,9 @@ New vaults auto-create:
 
 These are NOT part of project-vault.
 
-## Multi-Project: Aliases (Critical)
+## Multi-Project: Aliases (Required but NOT sufficient)
 
-When multiple projects share one Obsidian vault, all `00_HOME.md` files look identical in Graph View. **Fix: add `aliases` to frontmatter.**
+When multiple projects share one Obsidian vault, all `00_HOME.md` files look identical in Graph View. Aliases help with search/backlinks but **do NOT change Graph View node labels** — Obsidian always shows the filename.
 
 ```yaml
 ---
@@ -53,9 +53,29 @@ aliases: ["二字日记", "二字日记 Home", "two-char-diary"]
 ---
 ```
 
-Graph View then shows the alias (e.g. `二字日记`) instead of the filename (`00_HOME`).
+Aliases help: search, backlinks, internal linking, Dataview queries.
+Aliases do NOT help: Graph View node labels (always shows `00_HOME`).
 
-**Every project's 00_HOME MUST have aliases.** The vault template enforces this automatically.
+**Every project's 00_HOME MUST still have aliases** — they're needed for linking. But for Graph View, use color groups (below).
+
+## Multi-Project: Graph View Color Groups (Critical)
+
+**The real fix for distinguishing projects in Graph View is color groups.**
+
+Configure `.obsidian/graph.json`:
+
+```json
+{
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {"query": "path:Projects/二字日记", "color": {"a": 1, "rgb": 12101770}},
+    {"query": "path:Projects/世界杯", "color": {"a": 1, "rgb": 3900150}},
+    {"query": "path:Projects/晚安小书房", "color": {"a": 1, "rgb": 10190276}}
+  ]
+}
+```
+
+`setup-obsidian-link.sh` does this automatically (hashes project name for consistent color).
 
 ## Multi-Project: INDEX.md
 
@@ -105,7 +125,9 @@ LIST FROM "docs/vault" WHERE status = "stale"
 
 ## Graph View Behavior
 
-- `00_HOME.md` appears as its **alias** (project name), not filename
+- `00_HOME.md` still shows as `00_HOME` (filename, not alias)
+- **Color groups** distinguish projects — each project gets a unique color
 - Orphan files = disconnected nodes (visual detection)
 - `assets/intake/reports/` files won't appear (outside vault directory)
 - Obsidian auto-refreshes when vault files change (file watcher)
+- Default files (`欢迎.md`, `未命名.base`) clutter the graph — delete them

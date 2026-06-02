@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [project-init, knowledge-base, documentation, onboarding, vault, agent-safety, lifecycle, schema, quality, obsidian, phases]
     related_skills: [writing-plans, requesting-code-review, codebase-inspection, plan, llm-wiki, systematic-debugging, obsidian]
-# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, walkthrough-worldcup.md, iterative-development-pattern.md, wsl-github-push-proxy.md
+# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, walkthrough-worldcup.md, iterative-development-pattern.md, wsl-github-push-proxy.md
 ---
 
 # Project Vault — Project Operating System
@@ -168,7 +168,7 @@ WHERE status = "stale"
 
 Every project's vault MUST have `00_HOME.md` as the central hub. Non-negotiable.
 
-**Critical: Add `aliases` to distinguish projects in Obsidian Graph View.**
+**Critical: Add `aliases` to distinguish projects in Obsidian search and linking.**
 
 ```yaml
 ---
@@ -177,7 +177,8 @@ aliases: ["项目中文名", "Project English Name", "project-slug"]
 ---
 ```
 
-Without aliases, Graph View shows multiple identical `00_HOME` nodes and you can't tell which project is which.
+Without aliases, search and backlinks can't distinguish between projects.
+For Graph View display, use **color groups** (see Obsidian Integration section below).
 
 ```markdown
 ## 🔴 Agent Entry Page

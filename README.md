@@ -4,6 +4,12 @@
 
 English | [中文](README.zh-CN.md)
 
+## ⚡ 3-Step Quick Start → [QUICKSTART.md](QUICKSTART.md) | [中文](QUICKSTART.md#中文版)
+
+See a live example → [`example-vault/`](example-vault/)
+
+---
+
 ## What Is This?
 
 AI agents often lack context when working on projects — they don't know what's safe to touch, what commands to run, or how the architecture works. **Project Vault** solves this by creating a structured knowledge base under `docs/vault/` that agents read before making any changes.
