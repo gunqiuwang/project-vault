@@ -1,5 +1,5 @@
 #!/bin/bash
-# Project Vault — Automated Initialization Script
+# Project Vault — Automated Initialization Script v2
 # Usage: bash init-vault.sh [project-path] [project-name] [phase]
 # Example: bash init-vault.sh . "My App" mvp
 #
@@ -15,17 +15,47 @@ PHASE="${3:-auto}"
 cd "$PROJECT_PATH"
 PROJECT_ROOT="$(pwd)"
 
-# --- Auto-detect phase if not specified ---
+# ============================================
+# 0. PATH CHECK — WSL must be on Windows volume
+# ============================================
+ON_WINDOWS_VOLUME=false
+if echo "$PROJECT_ROOT" | grep -qE "^/mnt/[cd]/"; then
+  ON_WINDOWS_VOLUME=true
+fi
+
+if grep -qiE "(microsoft|wsl)" /proc/version 2>/dev/null; then
+  IS_WSL=true
+  if [ "$ON_WINDOWS_VOLUME" = false ]; then
+    echo "⚠️  WARNING: Project is on WSL filesystem ($PROJECT_ROOT)"
+    echo "   Obsidian on Windows cannot access WSL-only paths."
+    echo "   Move project to /mnt/c/ or /mnt/d/ first:"
+    echo ""
+    echo "   cp -r $PROJECT_ROOT /mnt/d/C1/$(basename "$PROJECT_ROOT")"
+    echo ""
+    read -p "   Continue anyway? (y/N) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      echo "Aborted. Move the project first."
+      exit 1
+    fi
+  fi
+else
+  IS_WSL=false
+fi
+
+# ============================================
+# 1. AUTO-DETECT PHASE
+# ============================================
 if [ "$PHASE" = "auto" ]; then
   if [ -f "package.json" ] || [ -f "requirements.txt" ] || [ -f "pyproject.toml" ] || [ -f "Cargo.toml" ] || [ -f "go.mod" ]; then
-    if [ -d "src" ] || [ -d "app" ] || [ -d "lib" ]; then
+    if [ -d "src" ] || [ -d "app" ] || [ -d "lib" ] || [ -d "pages" ]; then
       PHASE="mvp"
     else
       PHASE="prototype"
     fi
-  elif [ -f "*.html" ] || [ -f "index.html" ]; then
+  elif [ -f "index.html" ]; then
     PHASE="prototype"
-  elif [ -f "README.md" ] || [ -f "项目构想.md" ]; then
+  elif [ -d "assets" ] || [ -f "README.md" ] || [ -f "项目构想.md" ]; then
     PHASE="idea"
   else
     PHASE="idea"
@@ -37,21 +67,27 @@ TODAY=$(date +%Y-%m-%d)
 
 echo ""
 echo "=========================================="
-echo "  Project Vault Init"
+echo "  Project Vault Init v2"
 echo "=========================================="
 echo "  Project:  $PROJECT_NAME"
 echo "  Path:     $PROJECT_ROOT"
 echo "  Phase:    $PHASE"
 echo "  Date:     $TODAY"
+echo "  WSL:      $IS_WSL"
+echo "  Windows:  $ON_WINDOWS_VOLUME"
 echo "=========================================="
 echo ""
 
-# --- Create directories ---
+# ============================================
+# 2. CREATE DIRECTORIES
+# ============================================
 mkdir -p docs/vault/templates
 mkdir -p assets/intake/reports
 echo "✅ Directories created"
 
-# --- .gitignore handling ---
+# ============================================
+# 3. .GITIGNORE HANDLING
+# ============================================
 if [ ! -f ".gitignore" ]; then
   cat > .gitignore << 'GITIGNORE'
 # Dependencies
@@ -82,7 +118,6 @@ build/
 GITIGNORE
   echo "✅ .gitignore created (was missing)"
 else
-  # Check if .env is in .gitignore
   if ! grep -q "^\.env" .gitignore 2>/dev/null; then
     echo "" >> .gitignore
     echo "# Environment" >> .gitignore
@@ -94,64 +129,124 @@ else
   fi
 fi
 
-# --- Detect sensitive patterns ---
-SENSITIVE_PATTERNS=""
-if [ -f ".env.example" ]; then
-  SENSITIVE_PATTERNS=$(grep -oP '^[A-Z_]+=' .env.example 2>/dev/null | sed 's/=$//' | head -10 || true)
-fi
-if [ -f ".env" ]; then
-  echo "⚠️  WARNING: .env file exists — make sure it's in .gitignore!"
-fi
+# ============================================
+# 4. SCAN PROJECT — Read the "soul"
+# ============================================
+echo "🔍 Scanning project..."
 
-# --- Detect project info ---
+# Git info
 BRANCH=$(git branch --show-current 2>/dev/null || echo "unknown")
-COMMIT=$(git log --oneline -1 2>/dev/null || echo "no commits")
-COMMIT_SHORT=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+COMMIT_SHORT=$(git rev-parse --short HEAD 2>/dev/null || echo "no commits")
+COMMIT_MSG=$(git log --oneline -1 2>/dev/null || echo "no commits")
 
-# Detect tech stack
+# Tech stack detection
 TECH_STACK="Unknown"
 if [ -f "package.json" ]; then
   if grep -q "react" package.json 2>/dev/null; then TECH_STACK="React"
   elif grep -q "vue" package.json 2>/dev/null; then TECH_STACK="Vue"
   elif grep -q "next" package.json 2>/dev/null; then TECH_STACK="Next.js"
+  elif grep -q "express" package.json 2>/dev/null; then TECH_STACK="Express"
   else TECH_STACK="Node.js"
   fi
 elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then
-  if grep -q "django" requirements.txt 2>/dev/null || grep -q "django" pyproject.toml 2>/dev/null; then TECH_STACK="Django"
-  elif grep -q "flask" requirements.txt 2>/dev/null || grep -q "flask" pyproject.toml 2>/dev/null; then TECH_STACK="Flask"
-  elif grep -q "fastapi" requirements.txt 2>/dev/null || grep -q "fastapi" pyproject.toml 2>/dev/null; then TECH_STACK="FastAPI"
+  if grep -q "django" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="Django"
+  elif grep -q "flask" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="Flask"
+  elif grep -q "fastapi" requirements.txt pyproject.toml 2>/dev/null; then TECH_STACK="FastAPI"
   else TECH_STACK="Python"
   fi
 elif [ -f "Cargo.toml" ]; then TECH_STACK="Rust"
 elif [ -f "go.mod" ]; then TECH_STACK="Go"
 elif [ -f "index.html" ]; then TECH_STACK="HTML/CSS/JS"
+elif [ -f "project.config.json" ] && grep -q "miniprogram" project.config.json 2>/dev/null; then TECH_STACK="WeChat Mini Program"
 fi
-echo "🔍 Detected tech stack: $TECH_STACK"
+echo "  Tech stack: $TECH_STACK"
 
-# --- Detect commands ---
-COMMANDS=""
+# Scan assets
+ASSET_COUNT=0
+AUDIO_COUNT=0
+IMAGE_COUNT=0
+STORY_COUNT=0
+if [ -d "assets" ]; then
+  ASSET_COUNT=$(find assets -type f 2>/dev/null | wc -l)
+  AUDIO_COUNT=$(find assets -name "*.wav" -o -name "*.mp3" -o -name "*.ogg" 2>/dev/null | wc -l)
+  IMAGE_COUNT=$(find assets -name "*.png" -o -name "*.jpg" -o -name "*.webp" -o -name "*.svg" 2>/dev/null | wc -l)
+  STORY_COUNT=$(find assets -name "*.meta.json" 2>/dev/null | wc -l)
+  echo "  Assets: $ASSET_COUNT files ($AUDIO_COUNT audio, $IMAGE_COUNT images, $STORY_COUNT content items)"
+fi
+
+# Scan source files
+SOURCE_COUNT=$(find . -name "*.js" -o -name "*.ts" -o -name "*.py" -o -name "*.rs" -o -name "*.go" -o -name "*.wxml" -o -name "*.wxss" -o -name "*.html" -o -name "*.css" 2>/dev/null | grep -v node_modules | grep -v .git | wc -l)
+echo "  Source files: $SOURCE_COUNT"
+
+# Scan docs
+DOC_FILES=""
+for doc in README.md "项目构想.md" PRD.md "设计文档.md" PROJECT-REVIEW.md; do
+  if [ -f "$doc" ]; then
+    DOC_FILES="$DOC_FILES $doc"
+  fi
+done
+echo "  Docs found:$DOC_FILES"
+
+# Detect commands from package.json
+COMMANDS_SAFE=""
+COMMANDS_DEPLOY=""
 if [ -f "package.json" ]; then
-  COMMANDS=$(python3 -c "
+  COMMANDS_SAFE=$(python3 -c "
 import json
 with open('package.json') as f:
     d = json.load(f)
 for k,v in d.get('scripts',{}).items():
-    print(f'npm run {k} — {v}')
+    print(f'| \`npm run {k}\` | {v} | 🟢 Safe |')
 " 2>/dev/null || echo "")
 fi
-if [ -f "Makefile" ]; then
-  COMMANDS="$COMMANDS\n$(grep '^[a-zA-Z_-]*:' Makefile 2>/dev/null | sed 's/:.*$//' | sed 's/^/make /' || true)"
+
+# Detect sensitive patterns
+SENSITIVE_PATTERNS=""
+if [ -f ".env.example" ]; then
+  SENSITIVE_PATTERNS=$(grep -oP '^[A-Z_]+=' .env.example 2>/dev/null | sed 's/=$//' | head -10 || true)
+fi
+if [ -f ".env" ]; then
+  echo "  ⚠️  .env file exists — verify it's in .gitignore!"
 fi
 
-# --- Generate vault files ---
+# Detect naming patterns
+NAMING_PATTERN=""
+if [ -d "assets" ]; then
+  SAMPLE=$(find assets -name "*.meta.json" -type f 2>/dev/null | head -3 | xargs -I{} basename {} .meta.json)
+  if [ -n "$SAMPLE" ]; then
+    NAMING_PATTERN=$(echo "$SAMPLE" | head -1 | sed 's/[0-9]/X/g')
+    echo "  Naming pattern: $NAMING_PATTERN"
+  fi
+fi
+
+# Count pages (WeChat mini-program)
+PAGES=""
+if [ -f "app.json" ]; then
+  PAGES=$(python3 -c "
+import json
+with open('app.json') as f:
+    d = json.load(f)
+for p in d.get('pages',[]):
+    print(f'  - {p}')
+" 2>/dev/null || echo "")
+  if [ -n "$PAGES" ]; then
+    echo "  Pages:$(echo "$PAGES" | wc -l) detected"
+  fi
+fi
+
+echo ""
+
+# ============================================
+# 5. GENERATE VAULT FILES
+# ============================================
 echo "📝 Generating vault files..."
 
-# 00_HOME.md
+# --- 00_HOME.md ---
 cat > docs/vault/00_HOME.md << EOF
 ---
 type: home
 status: active
-confidence: medium
+confidence: high
 last_updated: $TODAY
 owner: both
 reviewed_by: unreviewed
@@ -159,8 +254,6 @@ aliases: ["$PROJECT_NAME", "$PROJECT_NAME Home"]
 ---
 
 # $PROJECT_NAME — Project Vault
-
-> Auto-generated by Project Vault init. Customize this file.
 
 ## Quick Facts
 
@@ -171,13 +264,31 @@ aliases: ["$PROJECT_NAME", "$PROJECT_NAME Home"]
 | **Tech Stack** | $TECH_STACK |
 | **Branch** | $BRANCH |
 | **Last Commit** | $COMMIT_SHORT |
+| **Source Files** | $SOURCE_COUNT |
 | **Last Updated** | $TODAY |
+EOF
+
+# Add content inventory if assets exist
+if [ "$ASSET_COUNT" -gt 0 ]; then
+cat >> docs/vault/00_HOME.md << EOF
+
+## Content Inventory
+
+| Metric | Count |
+|--------|-------|
+| Total assets | $ASSET_COUNT |
+| Audio files | $AUDIO_COUNT |
+| Image files | $IMAGE_COUNT |
+| Content items | $STORY_COUNT |
+EOF
+fi
+
+cat >> docs/vault/00_HOME.md << EOF
 
 ## Agent Entry Page
 
 > **Every new Agent MUST read this page first.**
 
-**Mandatory reading order:**
 1. [[00_HOME]] — You are here
 2. [[01_CURRENT_BASELINE]] — Source of truth
 3. [[03_DO_NOT_TOUCH]] — Danger zones
@@ -187,6 +298,21 @@ aliases: ["$PROJECT_NAME", "$PROJECT_NAME Home"]
 **After completing any task, you MUST:**
 - Update [[01_CURRENT_BASELINE]] if status changed
 - Append to [[VAULT_CHANGELOG]]
+
+## Source Documentation
+
+EOF
+
+# Auto-link discovered docs
+if [ -n "$DOC_FILES" ]; then
+  for doc in $DOC_FILES; do
+    echo "- [[$doc]]" >> docs/vault/00_HOME.md
+  done
+else
+  echo "- [ ] Link your planning docs here" >> docs/vault/00_HOME.md
+fi
+
+cat >> docs/vault/00_HOME.md << EOF
 
 ## Vault Navigation
 
@@ -202,21 +328,15 @@ aliases: ["$PROJECT_NAME", "$PROJECT_NAME Home"]
 - [[10_REPORT_INDEX]] — Reports
 - [[VAULT_SCHEMA]] — Vault rules
 - [[VAULT_CHANGELOG]] — Vault log
-
-## Source Documentation
-
-> Links to original planning docs, design docs, or discussions that informed this project.
-
-- [ ] Link your planning doc here (e.g., [[项目构想]], [[PRD]], [[design-spec]])
 EOF
 echo "  ✅ 00_HOME.md"
 
-# 01_CURRENT_BASELINE.md
+# --- 01_CURRENT_BASELINE.md ---
 cat > docs/vault/01_CURRENT_BASELINE.md << EOF
 ---
 type: baseline
 status: active
-confidence: medium
+confidence: high
 last_updated: $TODAY
 owner: agent
 reviewed_by: unreviewed
@@ -227,19 +347,28 @@ reviewed_by: unreviewed
 | Key | Value | Confidence |
 |-----|-------|------------|
 | **Branch** | $BRANCH | high |
-| **HEAD** | $COMMIT_SHORT | high |
+| **HEAD** | \`$COMMIT_SHORT\` — $COMMIT_MSG | high |
 | **Phase** | $PHASE | high |
 | **Tech** | $TECH_STACK | high |
+| **Source Files** | $SOURCE_COUNT | high |
+| **Assets** | $ASSET_COUNT files | high |
 | **Production** | Not deployed | medium |
-| **Tests** | Unknown | low |
+
+## Capabilities
+
+> Customize this section with what the project can do right now.
+
+## Known Issues
+
+> List known bugs or incomplete features here.
 
 ## Must NOT Regress
 
-- [ ] Fill in critical features here
+> List critical features that must never break.
 EOF
 echo "  ✅ 01_CURRENT_BASELINE.md"
 
-# 02_DECISION_LOG.md
+# --- 02_DECISION_LOG.md ---
 cat > docs/vault/02_DECISION_LOG.md << EOF
 ---
 type: decision-log
@@ -263,7 +392,7 @@ reviewed_by: unreviewed
 EOF
 echo "  ✅ 02_DECISION_LOG.md"
 
-# 03_DO_NOT_TOUCH.md
+# --- 03_DO_NOT_TOUCH.md ---
 cat > docs/vault/03_DO_NOT_TOUCH.md << EOF
 ---
 type: danger-zones
@@ -288,10 +417,9 @@ reviewed_by: human
 - API keys, tokens, passwords
 - Database connection strings
 - Internal URLs
-- Personal data
+- Personal data (emails, phone numbers)
 EOF
 
-# Add sensitive patterns if detected
 if [ -n "$SENSITIVE_PATTERNS" ]; then
   echo "" >> docs/vault/03_DO_NOT_TOUCH.md
   echo "### Detected Sensitive Patterns" >> docs/vault/03_DO_NOT_TOUCH.md
@@ -304,12 +432,12 @@ if [ -n "$SENSITIVE_PATTERNS" ]; then
 fi
 echo "  ✅ 03_DO_NOT_TOUCH.md"
 
-# 04_ARCHITECTURE.md
+# --- 04_ARCHITECTURE.md ---
 cat > docs/vault/04_ARCHITECTURE.md << EOF
 ---
 type: architecture
 status: active
-confidence: low
+confidence: medium
 last_updated: $TODAY
 owner: agent
 reviewed_by: unreviewed
@@ -321,20 +449,29 @@ reviewed_by: unreviewed
 
 | Layer | Technology |
 |-------|-----------|
-| **Stack** | $TECH_STACK |
+| Stack | $TECH_STACK |
+| Source files | $SOURCE_COUNT |
 
-> Customize this section with your actual architecture.
+## Main Structure
+
+> Customize with your project's directory structure.
 
 ## Source Documentation
 
-> Link to original design docs or planning documents here.
-> This preserves the "why" behind architectural decisions.
-
-- [ ] Link your architecture doc here
+> Link to original planning docs, design docs, or discussions.
+> This preserves the "why" behind decisions.
 EOF
+
+if [ -n "$DOC_FILES" ]; then
+  echo "" >> docs/vault/04_ARCHITECTURE.md
+  echo "Linked docs:" >> docs/vault/04_ARCHITECTURE.md
+  for doc in $DOC_FILES; do
+    echo "- [[$doc]]" >> docs/vault/04_ARCHITECTURE.md
+  done
+fi
 echo "  ✅ 04_ARCHITECTURE.md"
 
-# 05_COMMANDS_AND_FILES.md
+# --- 05_COMMANDS_AND_FILES.md ---
 cat > docs/vault/05_COMMANDS_AND_FILES.md << EOF
 ---
 type: commands-files
@@ -353,8 +490,15 @@ reviewed_by: unreviewed
 
 | Command | Purpose | Risk |
 |---------|---------|------|
-$(echo "$COMMANDS" | head -10 | sed 's/^//' | awk -F' — ' '{printf "| `%s` | %s | 🟢 Safe |\n", $1, $2}')
+EOF
+
+if [ -n "$COMMANDS_SAFE" ]; then
+  echo "$COMMANDS_SAFE" >> docs/vault/05_COMMANDS_AND_FILES.md
+fi
+
+cat >> docs/vault/05_COMMANDS_AND_FILES.md << EOF
 | \`git status\` | Check changes | 🟢 Safe |
+| \`git log --oneline -10\` | Recent commits | 🟢 Safe |
 
 ### Deploy
 
@@ -364,19 +508,17 @@ $(echo "$COMMANDS" | head -10 | sed 's/^//' | awk -F' — ' '{printf "| `%s` | %
 
 ## File Inventory
 
-| File | Purpose | Risk |
-|------|---------|------|
-| {FILE} | {PURPOSE} | 🟢/🟡/🟠/🔴 |
+> List the most important files and their purposes.
 EOF
 echo "  ✅ 05_COMMANDS_AND_FILES.md"
 
-# 06-10 (minimal templates)
+# --- 06-10 minimal ---
 for file_info in \
-  "06_DEPLOYMENT.md|deployment|Deployment|Unknown — customize this file" \
-  "07_TESTING_AND_VERIFICATION.md|testing|Testing|No automated tests configured" \
-  "08_INCIDENTS_AND_FIXES.md|incidents|Incidents|No incidents yet" \
-  "09_AGENT_PROMPTS.md|agent-prompts|Agent Prompts|## New Task Startup\n\nRead docs/vault/00_HOME.md before making changes." \
-  "10_REPORT_INDEX.md|report-index|Report Index|No reports yet"
+  "06_DEPLOYMENT.md|deployment|Deployment|> Describe build and deploy process here." \
+  "07_TESTING_AND_VERIFICATION.md|testing|Testing|> Describe how to test this project." \
+  "08_INCIDENTS_AND_FIXES.md|incidents|Incidents|No incidents yet." \
+  "09_AGENT_PROMPTS.md|agent-prompts|Agent Prompts|## New Task Startup\n\nRead docs/vault/00_HOME.md before making changes.\nSummarize your plan before editing." \
+  "10_REPORT_INDEX.md|report-index|Report Index|Full reports in assets/intake/reports/. Summaries here."
 do
   IFS='|' read -r fname ftype ftitle fdesc <<< "$file_info"
   cat > "docs/vault/$fname" << EOF
@@ -396,7 +538,7 @@ EOF
   echo "  ✅ $fname"
 done
 
-# VAULT_SCHEMA.md
+# --- VAULT_SCHEMA.md ---
 cat > docs/vault/VAULT_SCHEMA.md << EOF
 ---
 type: schema
@@ -413,11 +555,12 @@ reviewed_by: human
 
 **Project:** $PROJECT_NAME
 **Phase:** $PHASE
+**Tech:** $TECH_STACK
 
 ## Vault Version
 
 \`\`\`yaml
-vault_version: 5.0.0
+vault_version: 5.1.0
 vault_created: $TODAY
 \`\`\`
 
@@ -437,7 +580,7 @@ audit_interval_days: 30
 EOF
 echo "  ✅ VAULT_SCHEMA.md"
 
-# VAULT_CHANGELOG.md
+# --- VAULT_CHANGELOG.md ---
 cat > docs/vault/VAULT_CHANGELOG.md << EOF
 ---
 type: changelog
@@ -450,12 +593,13 @@ reviewed_by: unreviewed
 
 # Vault Changelog
 
-## [$TODAY] init | Vault created
+## [$TODAY] init | Vault created by init-vault.sh v2
 
 - Phase: $PHASE
 - Tech: $TECH_STACK
-- Files created: 13
-- Auto-generated by init-vault.sh
+- Assets: $ASSET_COUNT files scanned
+- Docs linked: $DOC_FILES
+- Naming pattern: ${NAMING_PATTERN:-N/A}
 EOF
 echo "  ✅ VAULT_CHANGELOG.md"
 
@@ -463,9 +607,11 @@ echo "  ✅ VAULT_CHANGELOG.md"
 for tpl in DECISION_TEMPLATE INCIDENT_TEMPLATE DEPLOY_REPORT_TEMPLATE AGENT_TASK_TEMPLATE; do
   touch "docs/vault/templates/$tpl.md"
 done
-echo "  ✅ Templates created"
+echo "  ✅ Templates"
 
-# --- Run vault score ---
+# ============================================
+# 6. VAULT SCORE
+# ============================================
 echo ""
 echo "📊 Vault Score:"
 TOTAL=13
@@ -491,28 +637,45 @@ elif [ "$SCORE" -ge 50 ]; then echo "  Grade: 🟠 Needs work"
 else echo "  Grade: 🔴 Critical"
 fi
 
-# --- Git commit ---
+# ============================================
+# 7. GIT COMMIT
+# ============================================
 echo ""
 if git rev-parse --git-dir > /dev/null 2>&1; then
   git add docs/vault/ assets/intake/reports/ .gitignore 2>/dev/null
   git commit -m "docs: create project vault (phase: $PHASE, score: $SCORE)" 2>&1
-  echo ""
   echo "✅ Committed to Git"
 else
   echo "⚠️  No git repo found. Run 'git init' first."
 fi
 
+# ============================================
+# 8. SUMMARY
+# ============================================
 echo ""
 echo "=========================================="
 echo "  ✅ Project Vault initialized!"
 echo "=========================================="
 echo ""
+echo "  Files:     13 vault files + 4 templates"
+echo "  Score:     $SCORE / 100"
+echo "  Phase:     $PHASE"
+echo "  Assets:    $ASSET_COUNT scanned"
+echo "  Docs:     ${DOC_FILES:-none found}"
+echo ""
 echo "  Next steps:"
 echo "  1. Open Obsidian → check Graph View"
 echo "  2. Customize docs/vault/00_HOME.md"
-echo "  3. Link your planning docs in Source Documentation"
-echo "  4. Tell your AI: 'Read docs/vault/00_HOME.md first'"
+echo "  3. Tell your AI: 'Read docs/vault/00_HOME.md first'"
 echo ""
-echo "  Connect Obsidian:"
-echo "  bash templates/setup-obsidian-link.sh docs/vault \"$PROJECT_NAME\""
+
+if [ "$IS_WSL" = true ] && [ "$ON_WINDOWS_VOLUME" = true ]; then
+  echo "  Connect Obsidian (WSL detected):"
+  echo "  bash templates/setup-obsidian-link.sh docs/vault \"$PROJECT_NAME\""
+elif [ "$IS_WSL" = true ] && [ "$ON_WINDOWS_VOLUME" = false ]; then
+  echo "  ⚠️  Move project to /mnt/c/ or /mnt/d/ before connecting Obsidian"
+else
+  echo "  Connect Obsidian:"
+  echo "  bash templates/setup-obsidian-link.sh docs/vault \"$PROJECT_NAME\""
+fi
 echo ""
