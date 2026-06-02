@@ -1,7 +1,7 @@
 ---
 name: project-vault
 description: "Use when starting any new project, onboarding an existing codebase, or syncing project knowledge after changes. Creates and maintains a structured knowledge vault (docs/vault/) with quality signals, orphan detection, project phases, and lifecycle management. Human-visual + agent-executable project operating system."
-version: 5.1.0
+version: 5.0.0
 author: guoku
 license: MIT
 platforms: [linux, macos, windows, wsl]
@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [project-init, knowledge-base, documentation, onboarding, vault, agent-safety, lifecycle, schema, quality, obsidian, phases]
     related_skills: [writing-plans, requesting-code-review, codebase-inspection, plan, llm-wiki, systematic-debugging, obsidian]
-# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, iterative-development-pattern.md, wsl-github-push-proxy.md
+# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, walkthrough-worldcup.md, iterative-development-pattern.md, wsl-github-push-proxy.md
 ---
 
 # Project Vault — Project Operating System
@@ -527,9 +527,40 @@ chmod +x .git/hooks/post-commit
 cp templates/ci-vault-check.yml .github/workflows/vault-check.yml
 ```
 
-## Obsidian Integration
+## Obsidian Integration — Pitfalls from Real-World Use
 
-Project Vault uses Obsidian-native `[[wikilinks]]` syntax.
+### WSL Symlink Does NOT Work with Windows Obsidian
+
+`ln -sf` from WSL creates Linux symlinks. Windows Obsidian sees `EACCES: permission denied`.
+**Fix:** Use Windows junction via PowerShell — no admin required:
+
+```powershell
+powershell.exe -Command "cmd /c mklink /J 'C:\Users\YOU\Documents\Obsidian Vault\Projects\项目名' 'C:\Users\YOU\Desktop\project\docs\vault'"
+```
+
+The cross-platform script `templates/setup-obsidian-link.sh` handles this automatically.
+
+### Graph View Node Disambiguation (aliases)
+
+When multiple projects connect to one Obsidian vault, all `00_HOME.md` nodes look identical in Graph View. **Fix:** Add `aliases` to frontmatter:
+
+```yaml
+aliases: ["二字日记", "二字日记 Home", "two-char-diary"]
+```
+
+Graph View then shows the alias instead of the filename. The vault template already includes this.
+
+### Obsidian Default Files
+
+New vaults auto-create `未命名.base` and `欢迎.md`. Safe to delete — not part of project vault.
+
+### Multi-Project Cross-Index
+
+When multiple projects share one Obsidian vault, create `Projects/INDEX.md` with a table linking to each project's `[[alias]]`. Template: `templates/PROJECTS_INDEX.md`.
+
+---
+
+Agent Vault uses Obsidian-native `[[wikilinks]]` syntax.
 
 ### Approach A: Open Project as Obsidian Vault
 
@@ -572,6 +603,34 @@ Convention: Each project's `docs/vault/` is the real file (committed to Git). Ob
 
 **Pros:** Unified graph view, cross-project linking, one search index, Git-safe
 **Best for:** Multi-project overview
+
+### Graph View Color Groups (Critical for Multi-Project)
+
+All projects use the same filenames (`00_HOME.md`, `01_CURRENT_BASELINE.md`...). Without color coding, Graph View shows identical-looking nodes for every project.
+
+**Fix: Obsidian Graph Color Groups** — assign a unique color per project:
+
+```json
+// .obsidian/graph.json — add to colorGroups array
+{
+  "colorGroups": [
+    {"query": "path:Projects/二字日记", "color": {"a": 1, "rgb": 12101770}},
+    {"query": "path:Projects/世界杯", "color": {"a": 1, "rgb": 3900150}},
+    {"query": "path:Projects/晚安小书房", "color": {"a": 1, "rgb": 10190276}}
+  ]
+}
+```
+
+Color reference (decimal RGB):
+| Color | Hex | Decimal | Suggested for |
+|-------|-----|---------|--------------|
+| Copper/Gold | #B8A88A | 12101770 | Warm projects |
+| Blue | #3B82F6 | 3900150 | Tech projects |
+| Purple | #9B7DC4 | 10190276 | Creative projects |
+| Green | #10B981 | 1088512 | Growth projects |
+| Red | #EF4444 | 15680068 | Alert/urgent |
+
+After configuring, each project's nodes appear in a different color. You can instantly tell which `00_HOME` belongs to which project.
 
 ### Pitfall: Obsidian Default Files
 

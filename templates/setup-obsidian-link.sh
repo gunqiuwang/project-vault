@@ -126,6 +126,48 @@ else
   exit 1
 fi
 
+# --- Add color group to Obsidian graph config ---
+echo ""
+echo "🎨 Configuring Graph View color..."
+
+GRAPH_CONFIG="$OBSIDIAN_DIR/.obsidian/graph.json"
+if [ -f "$GRAPH_CONFIG" ]; then
+  # Generate a random color (hue-based, distinct per project)
+  # Use hash of display name for consistent color
+  HASH=$(echo -n "$DISPLAY_NAME" | md5sum | head -c 6)
+  R=$((16#${HASH:0:2}))
+  G=$((16#${HASH:2:2}))
+  B=$((16#${HASH:4:2}))
+  # Ensure minimum brightness
+  R=$((R < 100 ? R + 100 : R))
+  G=$((G < 100 ? G + 100 : G))
+  B=$((B < 100 ? B + 100 : B))
+  DECIMAL_RGB=$((R * 65536 + G * 256 + B))
+
+  # Check if this project already has a color group
+  if ! grep -q "$DISPLAY_NAME" "$GRAPH_CONFIG" 2>/dev/null; then
+    # Add color group using python (available on most systems)
+    python3 -c "
+import json
+with open('$GRAPH_CONFIG', 'r') as f:
+    config = json.load(f)
+if 'colorGroups' not in config:
+    config['colorGroups'] = []
+config['colorGroups'].append({
+    'query': 'path:Projects/$DISPLAY_NAME',
+    'color': {'a': 1, 'rgb': $DECIMAL_RGB}
+})
+config['collapse-color-groups'] = False
+with open('$GRAPH_CONFIG', 'w') as f:
+    json.dump(config, f, indent=2)
+" 2>/dev/null && echo "  ✅ Color group added (RGB: $DECIMAL_RGB)" || echo "  ⚠️  Could not auto-configure color"
+  else
+    echo "  ✅ Color group already exists"
+  fi
+else
+  echo "  ⚠️  graph.json not found — open Obsidian once, then re-run"
+fi
+
 # Verify
 echo ""
 echo "=== Verification ==="
