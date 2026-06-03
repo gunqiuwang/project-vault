@@ -1,100 +1,61 @@
 # 🏛️ Project Vault
 
-> 给你的项目建一个「知识保险箱」，任何 AI 开工前先读它，就不会乱搞。
+> A knowledge vault for your projects. AI reads it before working — no more re-explaining.
 
-English | [中文](#中文版)
+[English](#quick-start) | [中文](README.zh-CN.md)
 
-## 一句话说明
+## What Is This
 
-每次换 AI、换模型、换平台，都要重新解释项目？**不用了。** 把项目知识存进 `docs/vault/`，AI 开工前读一遍就全懂。
+Switch AI, switch model, switch platform — doesn't matter. Store project knowledge in `docs/vault/`, any AI reads `00_HOME.md` and understands everything.
 
-## 30 秒上手
+## Quick Start
 
 ```bash
-# 1. 下载
+# 1. Download
 git clone https://github.com/guqiuwang/project-vault.git /tmp/project-vault
 
-# 2. 在你的项目里跑一行命令
-bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
+# 2. Init your project (one command, auto-detects everything)
+bash /tmp/project-vault/templates/init-vault.sh /your/project "Project Name"
 
-# 3. 告诉你的 AI
-# "先读 docs/vault/00_HOME.md，再开始工作。"
+# 3. Tell your AI
+# "Read docs/vault/00_HOME.md before making changes."
 ```
 
-完事。
+Done.
 
-## 你会得到什么
+## What You Get
 
 ```
-你的项目/
+your-project/
 ├── docs/vault/
-│   ├── 00_HOME.md           ← AI 入口（项目是什么、不能碰什么）
-│   ├── 01_CURRENT_BASELINE.md ← 当前状态
-│   ├── 03_DO_NOT_TOUCH.md   ← 危险区
-│   └── ... (共 13 个文件)
-└── assets/intake/reports/   ← 报告
+│   ├── 00_HOME.md              ← AI entry (what's this project, what not to touch)
+│   ├── 01_CURRENT_BASELINE.md  ← current state
+│   ├── 03_DO_NOT_TOUCH.md      ← danger zones
+│   └── ... (13 files total)
+└── assets/intake/reports/      ← reports
 ```
 
-换 ChatGPT、Claude、Cursor、Copilot、豆包、Kimi……加一句 `先读 00_HOME` 就行。
+Works with ChatGPT, Claude, Cursor, Copilot, or any AI.
 
-## 4 个脚本
+## 4 Scripts
 
-| 脚本 | 干什么 | 什么时候用 |
-|------|--------|----------|
-| `init-vault.sh` | 创建 vault | 新项目开局 |
-| `sync-vault.sh` | 同步变更 | 代码改了之后 |
-| `audit-vault.sh` | 健康检查 | 每月 / 交接前 |
-| `setup-obsidian-link.sh` | 连接 Obsidian | 想可视化看图谱 |
+| Script | What | When |
+|--------|------|------|
+| `init-vault.sh` | Create vault | New project |
+| `sync-vault.sh` | Sync changes | After code changes |
+| `audit-vault.sh` | Health check | Monthly / handoff |
+| `setup-obsidian-link.sh` | Connect Obsidian | Visualize knowledge graph |
 
-## 连接 Obsidian（可选）
+## Obsidian (Optional)
 
 ```bash
-bash /tmp/project-vault/templates/setup-obsidian-link.sh /你的项目/docs/vault "项目名"
+bash /tmp/project-vault/templates/setup-obsidian-link.sh /your/project/docs/vault "Project Name"
 ```
 
-打开 Obsidian → 左侧看到项目 → `Ctrl+G` 看知识图谱。多个项目各有不同颜色，一眼分清。
+Open Obsidian → see project in sidebar → `Ctrl+G` for knowledge graph. Multiple projects show in different colors.
 
-## 适用平台
+See [QUICKSTART.md](QUICKSTART.md) for more.
 
-Claude Code、Cursor、Copilot、Aider、ChatGPT、Gemini、豆包、Kimi……任何能读 prompt 的 AI。
-
-详见 → [QUICKSTART.md](QUICKSTART.md)
-
-## 许可证
-
-MIT
-
----
-
-# 中文版
-
-## 一句话说明
-
-给项目建个知识库，AI 开工前读一遍，不会乱改乱删。
-
-## 30 秒上手
-
-```bash
-git clone https://github.com/guqiuwang/project-vault.git /tmp/project-vault
-bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
-# 然后告诉 AI：先读 docs/vault/00_HOME.md
-```
-
-## 你会得到什么
-
-13 个 markdown 文件，记录了项目的架构、命令、危险区、决策历史。AI 换了、模型换了，读一遍就懂。
-
-## 4 个脚本
-
-- `init-vault.sh` — 建 vault
-- `sync-vault.sh` — 同步变更
-- `audit-vault.sh` — 健康检查
-- `setup-obsidian-link.sh` — 连 Obsidian 看图谱
-
-## 截图
-
-<img src="assets/graph-view-demo.png" width="500" alt="Obsidian 里的知识图谱 — 4 个项目，颜色区分">
-
-## 许可证
+## License
 
 MIT
