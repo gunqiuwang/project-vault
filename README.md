@@ -4,8 +4,6 @@
 
 English | [中文](#中文版)
 
-![Obsidian Graph View — 4 个项目，颜色区分](assets/graph-view-demo.png)
-
 ## 一句话说明
 
 每次换 AI、换模型、换平台，都要重新解释项目？**不用了。** 把项目知识存进 `docs/vault/`，AI 开工前读一遍就全懂。
@@ -54,9 +52,7 @@ bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
 bash /tmp/project-vault/templates/setup-obsidian-link.sh /你的项目/docs/vault "项目名"
 ```
 
-打开 Obsidian → 左侧看到项目 → `Ctrl+G` 看知识图谱。
-
-多个项目各有不同颜色，一眼分清。
+打开 Obsidian → 左侧看到项目 → `Ctrl+G` 看知识图谱。多个项目各有不同颜色，一眼分清。
 
 ## 适用平台
 
@@ -97,7 +93,7 @@ bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
 
 ## 截图
 
-![Obsidian 里的知识图谱 — 4 个项目，颜色区分](assets/graph-view-demo.png)
+<img src="assets/graph-view-demo.png" width="500" alt="Obsidian 里的知识图谱 — 4 个项目，颜色区分">
 
 ## 许可证
 
