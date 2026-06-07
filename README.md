@@ -37,6 +37,29 @@ your-project/
 
 Works with ChatGPT, Claude, Cursor, Copilot, or any AI.
 
+## Real-World Example
+
+[MatchLens AI](https://github.com/guqiuwang/worldcup-2026) — a World Cup 2026 info SPA, managed entirely through Project Vault.
+
+<img src="assets/matchlens-demo.jpg" width="400" alt="MatchLens AI — World Cup 2026 SPA with Project Vault">
+
+## What's New (v5.5.0)
+
+### Karpathy Coding Principles
+
+Four rules from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls, integrated into every agent prompt:
+
+| Principle | Rule |
+|-----------|------|
+| **Think Before Coding** | Don't assume. State assumptions. Ask when confused. |
+| **Simplicity First** | Minimum code. 200 lines → 50 if possible. |
+| **Surgical Changes** | Touch only what's needed. Every line traces to the request. |
+| **Goal-Driven Execution** | Define success criteria. Loop until verified. |
+
+### Vault Sync Workflow
+
+Agent updates the vault **during** work, not after. Every code change syncs to the corresponding vault file immediately. No more "update vault later" — later never comes.
+
 ## 4 Scripts
 
 | Script | What | When |

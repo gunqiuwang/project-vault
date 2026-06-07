@@ -37,6 +37,29 @@ bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
 
 ChatGPT、Claude、Cursor、Copilot、豆包、Kimi……任何 AI 都行。
 
+## 真实案例
+
+[MatchLens AI](https://github.com/guqiuwang/worldcup-2026) — 2026 世界杯信息站 SPA，全程用 Project Vault 管理。
+
+<img src="assets/matchlens-demo.jpg" width="400" alt="MatchLens AI — 用 Project Vault 管理的世界杯 SPA">
+
+## 新功能 (v5.5.0)
+
+### Karpathy 编码四原则
+
+来自 [Andrej Karpathy](https://x.com/karpathy/status/2015883857489522876) 对 LLM 编码问题的观察，已集成到每个 agent prompt：
+
+| 原则 | 规则 |
+|------|------|
+| **先想再写** | 别猜，说清假设，不确定就问 |
+| **简单优先** | 最少代码解决问题，200行能50行就50行 |
+| **精准修改** | 只改该改的，每行改动都能追溯到需求 |
+| **目标驱动** | 先定验收标准，循环到验证通过 |
+
+### Vault 同步纪律
+
+Agent **边做边更新** vault，不是做完再补。每次代码变更立即同步对应的 vault 文件。"等会儿再更新" = 永远不会更新。
+
 ## 4 个脚本
 
 | 脚本 | 干什么 | 什么时候用 |
