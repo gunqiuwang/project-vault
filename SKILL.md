@@ -1,7 +1,7 @@
 ---
 name: project-vault
 description: "Use when starting any new project, onboarding an existing codebase, or syncing project knowledge after changes. Creates and maintains a structured knowledge vault (docs/vault/) with quality signals, orphan detection, project phases, and lifecycle management. Human-visual + agent-executable project operating system."
-version: 5.4.0
+version: 5.5.0
 author: guoku
 license: MIT
 platforms: [linux, macos, windows, wsl]
@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [project-init, knowledge-base, documentation, onboarding, vault, agent-safety, lifecycle, schema, quality, obsidian, phases]
     related_skills: [writing-plans, requesting-code-review, codebase-inspection, plan, llm-wiki, systematic-debugging, obsidian]
-# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, iterative-development-pattern.md, readme-style-guide.md
+# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, iterative-development-pattern.md, readme-style-guide.md, karpathy-coding-principles.md
 ---
 
 # Project Vault — Project Operating System
@@ -727,6 +727,24 @@ To prevent Obsidian Graph View from becoming a spider web, follow these rules:
 
 Without discipline, Graph View becomes unreadable after 6 months. The star structure keeps `00_HOME` as the clear center, with clean spokes to each file.
 
+## Coding Principles (Karpathy)
+
+> Inspired by [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
+> Full reference: `references/karpathy-coding-principles.md`
+
+Every agent working on a project MUST follow these 4 principles:
+
+| # | Principle | Rule |
+|---|-----------|------|
+| 1 | **Think Before Coding** | Don't assume. State assumptions. Surface tradeoffs. Ask when confused. |
+| 2 | **Simplicity First** | Minimum code that solves the problem. No speculative features. 200 lines → 50 if possible. |
+| 3 | **Surgical Changes** | Touch only what you must. Don't "improve" adjacent code. Every changed line traces to the user's request. |
+| 4 | **Goal-Driven Execution** | Define success criteria before coding. Loop until verified. "1. [Step] → verify: [check]" |
+
+**The test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
+
+These principles apply to ALL agent prompt templates below. They override speed in favor of correctness.
+
 ## Agent Prompt Templates
 
 ### New Task Startup (ALWAYS first)
@@ -735,25 +753,37 @@ Without discipline, Graph View becomes unreadable after 6 months. The star struc
 Read docs/vault/00_HOME.md, docs/vault/01_CURRENT_BASELINE.md,
 docs/vault/03_DO_NOT_TOUCH.md, and docs/vault/05_COMMANDS_AND_FILES.md
 before making changes. Then read VAULT_SCHEMA.md for project rules
-and write protocol. Do not change unrelated systems.
-Do not deploy unless explicitly asked. Summarize your plan before editing.
+and write protocol.
+
+Karpathy Principles (always apply):
+1. Think Before Coding — state assumptions, surface tradeoffs, ask when confused
+2. Simplicity First — minimum code, no speculative features
+3. Surgical Changes — touch only what's needed, every line traces to the request
+4. Goal-Driven Execution — define success criteria, loop until verified
+
+Do not change unrelated systems.
+Do not deploy unless explicitly asked.
+State your plan and success criteria before editing.
 ```
 
 ### Bugfix
 
 ```
-Read vault. Identify the bug. Propose a fix with affected files.
-Do not refactor. Run tests after fix.
-Write incident report to assets/intake/reports/YYYY-MM-DD_incident-{slug}.md
-Add summary to 10_REPORT_INDEX.md. Set reviewed_by: agent.
+1. Read vault. Identify the bug → verify: root cause clearly stated
+2. Propose fix with affected files (surgical, no refactoring) → verify: diff only touches bug
+3. Implement fix → verify: tests pass, `tsc --noEmit` clean
+4. Write incident report to assets/intake/reports/YYYY-MM-DD_incident-{slug}.md
+5. Update vault (08_INCIDENTS, 01_BASELINE, VAULT_CHANGELOG)
 ```
 
 ### Feature
 
 ```
-Read vault. Identify affected modules. Propose implementation plan.
-Do not touch files in 03_DO_NOT_TOUCH.md without approval.
-Run tests. Update 01_CURRENT_BASELINE.md. Append to VAULT_CHANGELOG.md.
+1. Read vault. Identify affected modules → verify: list of files to change
+2. State assumptions and plan (Karpathy: Think Before Coding) → verify: user confirms direction
+3. Implement with surgical changes (Karpathy: Simplicity First) → verify: no unrelated edits
+4. Run tests / build → verify: all pass
+5. Update vault (01_BASELINE, 05_COMMANDS, VAULT_CHANGELOG) → verify: vault synced
 ```
 
 ### Task Completion (ALWAYS last)
