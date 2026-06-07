@@ -1,7 +1,7 @@
 ---
 name: project-vault
 description: "Use when starting any new project, onboarding an existing codebase, or syncing project knowledge after changes. Creates and maintains a structured knowledge vault (docs/vault/) with quality signals, orphan detection, project phases, and lifecycle management. Human-visual + agent-executable project operating system."
-version: 5.0.0
+version: 5.4.0
 author: guoku
 license: MIT
 platforms: [linux, macos, windows, wsl]
@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [project-init, knowledge-base, documentation, onboarding, vault, agent-safety, lifecycle, schema, quality, obsidian, phases]
     related_skills: [writing-plans, requesting-code-review, codebase-inspection, plan, llm-wiki, systematic-debugging, obsidian]
-# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, walkthrough-worldcup.md, iterative-development-pattern.md, wsl-github-push-proxy.md
+# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, iterative-development-pattern.md, readme-style-guide.md
 ---
 
 # Project Vault — Project Operating System
@@ -285,7 +285,19 @@ No exceptions. A task that changes the project but doesn't update the vault is i
 bash templates/init-vault.sh /path/to/project "Project Name" mvp
 ```
 
-The script auto-detects: phase, tech stack, commands, sensitive patterns, .gitignore.
+The script auto-detects:
+- **Phase**: idea/prototype/mvp/growth based on project files
+- **Tech stack**: multi-stack aware (e.g. "WeChat Mini Program + FastAPI")
+- **Full-stack**: detects `backend/` directory with its own deps
+- **Assets**: scans `assets/`, `miniprogram/images/`, `design/`, `public/images/`, `static/images/`
+- **Design files**: scans `design/*.html` and counts them
+- **Pages**: extracts from `miniprogram/app.json` or `app.json`
+- **Backend deps**: reads `backend/requirements.txt` or `requirements.txt`
+- **Recent commits**: fills `git log --oneline -5` into 01_BASELINE
+- **Naming patterns**: detects `wasr_bs_sXX_XXX` style patterns
+- **Sensitive patterns**: scans `.env.example` for API key names
+- **WSL path check**: warns if project is on WSL filesystem (Obsidian can't access)
+
 Then runs vault score and git commit automatically.
 
 **Option B: Manual (for AI agent)**
@@ -635,7 +647,7 @@ After configuring, each project's nodes appear in a different color. You can ins
 
 ### Pitfall: Obsidian Default Files
 
-New vaults in Obsidian auto-create `未命名.base` and `欢迎.md`. These are Obsidian defaults, not vault content. Safe to delete.
+New vaults in Obsidian auto-create `未命名.base` and `欢迎.md`. These are Obsidian defaults, not vault content. Safe to delete. The `setup-obsidian-link.sh` script deletes them automatically.
 
 ### Obsidian Config
 
@@ -773,6 +785,16 @@ Write full report to assets/intake/reports/YYYY-MM-DD_audit-report.md.
 Add summary to 10_REPORT_INDEX.md.
 ```
 
+## Design Principles (User Preferences)
+
+- **Simple over professional.** README should be ~50 lines. One-line descriptions beat paragraphs. This is a "小帮手" (small helper), not enterprise software. Don't make it look intimidating.
+- **Screenshots over text.** A Graph View screenshot explains more than 10 paragraphs of Obsidian docs. Include one in the README.
+- **Separate language READMEs.** `README.md` (English) + `README.zh-CN.md` (Chinese), linked at top. GitHub auto-detects `zh-CN` and shows language switcher. Do NOT mix both in one file.
+- **Image width: 500px** in README — `<img src="..." width="500">` not full-width.
+- **"太丑就重画，不修补"** — if the output isn't good, redo it entirely rather than patch.
+- **"不要造轮子"** — check existing skills/tools before building new ones.
+- **Don't forget to push screenshots.** Always verify `git add assets/` before push. User will call you out ("你简直是个小迷糊").
+
 ## Common Pitfalls
 
 1. **Agent skips vault read.** Enforce startup checklist from `00_HOME.md`.
@@ -789,6 +811,7 @@ Add summary to 10_REPORT_INDEX.md.
 12. **Never upgrading.** Run `vault upgrade` when skill version changes or phase changes.
 13. **WSL symlink doesn't work with Windows Obsidian.** `ln -sf` creates Linux symlinks that Windows can't read. Use `powershell.exe -Command "cmd /c mklink /J"` for directory junctions instead.
 14. **Obsidian default files confuse users.** `未命名.base` and `欢迎.md` are auto-created by Obsidian, not by agent-vault. Safe to delete.
+15. **Agent skips vault read on session resume.** When the user says "继续做X项目" or resumes work on a known project, **read `docs/vault/00_HOME.md` FIRST** before asking questions or inspecting files. The vault exists to survive context compression. Not reading it forces the user to re-explain everything. If the vault is stale, sync it — don't ignore it.
 
 ## Verification Checklist
 
@@ -815,6 +838,34 @@ Add summary to 10_REPORT_INDEX.md.
 - [ ] Full report in assets/intake/reports/
 - [ ] Summary in 10_REPORT_INDEX.md
 - [ ] Critical issues resolved or flagged
+
+## Script Tooling
+
+Four scripts handle the full lifecycle:
+
+| Script | Purpose | Usage |
+|--------|---------|-------|
+| `init-vault.sh` | Create vault from scratch | `bash templates/init-vault.sh . "Project" mvp` |
+| `sync-vault.sh` | Scan git changes, suggest updates | `bash templates/sync-vault.sh .` |
+| `audit-vault.sh` | 10-point health check | `bash templates/audit-vault.sh .` |
+| `setup-obsidian-link.sh` | Connect Obsidian + auto-color | `bash templates/setup-obsidian-link.sh docs/vault "Name"` |
+
+All scripts are in `templates/` and work on macOS, Linux, Windows (WSL).
+
+## QUICKSTART
+
+For new users: see `QUICKSTART.md` in the GitHub repo — 3-step setup in under 30 seconds.
+For a working demo: see `example-vault/` in the GitHub repo — complete Todo App vault.
+
+## Content & Documentation Style
+
+When creating READMEs, docs, or GitHub content for this skill:
+
+- **Keep it simple.** This is a small helper tool, not an enterprise framework. Don't make it look "professional" or "complex."
+- **Always include a screenshot.** One real Obsidian Graph View screenshot is worth 1000 words. Place it at the bottom of the Chinese README, resized to 500px: `<img src="assets/graph-view-demo.png" width="500">`
+- **Bilingual = separate files.** `README.md` (English) + `README.zh-CN.md` (Chinese). GitHub auto-detects `zh-CN` and shows a language switcher. Don't mix languages in one file.
+- **Lead with the 30-second pitch.** What is it → one command to start → what you get. Details below.
+- **No walls of text.** Tables > paragraphs. Code blocks > descriptions.
 
 ## GitHub Sharing
 
