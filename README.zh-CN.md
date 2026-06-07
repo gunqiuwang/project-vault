@@ -37,12 +37,6 @@ bash /tmp/project-vault/templates/init-vault.sh /你的项目 "项目名"
 
 ChatGPT、Claude、Cursor、Copilot、豆包、Kimi……任何 AI 都行。
 
-## 真实案例
-
-[MatchLens AI](https://github.com/guqiuwang/worldcup-2026) — 2026 世界杯信息站 SPA，全程用 Project Vault 管理。
-
-<img src="assets/matchlens-demo.jpg" width="400" alt="MatchLens AI — 用 Project Vault 管理的世界杯 SPA">
-
 ## 新功能 (v5.5.0)
 
 ### Karpathy 编码四原则

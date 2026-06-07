@@ -37,12 +37,6 @@ your-project/
 
 Works with ChatGPT, Claude, Cursor, Copilot, or any AI.
 
-## Real-World Example
-
-[MatchLens AI](https://github.com/guqiuwang/worldcup-2026) — a World Cup 2026 info SPA, managed entirely through Project Vault.
-
-<img src="assets/matchlens-demo.jpg" width="400" alt="MatchLens AI — World Cup 2026 SPA with Project Vault">
-
 ## What's New (v5.5.0)
 
 ### Karpathy Coding Principles
@@ -76,6 +70,8 @@ bash /tmp/project-vault/templates/setup-obsidian-link.sh /your/project/docs/vaul
 ```
 
 Open Obsidian → see project in sidebar → `Ctrl+G` for knowledge graph. Multiple projects show in different colors.
+
+<img src="assets/graph-view-demo.png" width="500" alt="Obsidian knowledge graph — 4 projects with color coding">
 
 See [QUICKSTART.md](QUICKSTART.md) for more.
 
