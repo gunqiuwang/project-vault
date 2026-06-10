@@ -28,7 +28,7 @@ Done.
 ```
 your-project/
 ├── docs/vault/
-│   ├── 00_HOME.md              ← AI entry (what's this project, what not to touch)
+│   ├── 00_HOME.md              ← AI entry + vault staleness check
 │   ├── 01_CURRENT_BASELINE.md  ← current state
 │   ├── 03_DO_NOT_TOUCH.md      ← danger zones
 │   └── ... (13 files total)
@@ -37,9 +37,34 @@ your-project/
 
 Works with ChatGPT, Claude, Cursor, Copilot, or any AI.
 
-## What's New (v5.5.0)
+## What's New (v5.6.0)
 
-### Karpathy Coding Principles
+### 🔴 Vault Startup Sync — Vault Never Goes Stale
+
+The #1 failure mode: agent does work, forgets to update vault. After 3 days, vault is fiction.
+
+**Solution:** Every `00_HOME.md` now has a staleness check at the very top. Agent reads it first thing:
+
+```
+1. Read last_updated from 00_HOME.md frontmatter
+2. git log --oneline --since=<last_updated>
+3. If unstaged commits → run vault sync first, then work
+```
+
+No cron jobs. No extra tokens. Just one `git log` command at session start.
+
+**Before:**
+```
+Agent enters project → works for 3 days → 37 commits → vault untouched → 💀
+```
+
+**After:**
+```
+Agent enters project → reads 00_HOME.md → git log shows 37 unsynced commits
+→ runs vault sync first → vault stays accurate → ✅
+```
+
+### Karpathy Coding Principles (v5.5.0)
 
 Four rules from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls, integrated into every agent prompt:
 
@@ -49,10 +74,6 @@ Four rules from [Andrej Karpathy's observations](https://x.com/karpathy/status/2
 | **Simplicity First** | Minimum code. 200 lines → 50 if possible. |
 | **Surgical Changes** | Touch only what's needed. Every line traces to the request. |
 | **Goal-Driven Execution** | Define success criteria. Loop until verified. |
-
-### Vault Sync Workflow
-
-Agent updates the vault **during** work, not after. Every code change syncs to the corresponding vault file immediately. No more "update vault later" — later never comes.
 
 ## 4 Scripts
 

@@ -8,6 +8,19 @@ reviewed_by: unreviewed
 aliases: ["{PROJECT_NAME}", "{PROJECT_NAME} Home", "{PROJECT_SLUG}"]
 ---
 
+## 🔴 VAULT STARTUP SYNC (第一步，读任何文件之前)
+
+**vault 可能已过期。先检查，再开工：**
+
+```
+1. 读本文件的 last_updated（上方 frontmatter）
+2. cd 到项目根目录
+3. git log --oneline --since=<last_updated> | grep -v "chore: update news" | grep -v "docs:"
+4. 如果有未同步的 commit → 先跑 vault sync（见 09_AGENT_PROMPTS.md），再开始干活
+```
+
+**如果 vault 是最新的 → 正常开工，继续读下方 Mandatory reading order。**
+
 # 🏠 {PROJECT_NAME} — Project Vault
 > {ONE_LINE_DESCRIPTION}
 

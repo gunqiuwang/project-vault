@@ -9,6 +9,7 @@ User has strong preferences for how project READMEs should look. These override 
 3. **Screenshots > text.** One good screenshot explains more than 5 paragraphs. Use `<img src="..." width="500">` to control size.
 4. **Chinese and English separate.** Two files: `README.md` (English) and `README.zh-CN.md` (Chinese). Link them at the top. Don't mix languages in one file.
 5. **Image at bottom, 500px wide.** Not at the top. Not full-width. Bottom of the Chinese README.
+6. **Screenshots must be relevant to THIS project.** Never add screenshots from other projects as "examples." If the Chinese README has a screenshot (e.g., Obsidian graph view), the English README should have the SAME screenshot — not a screenshot from an unrelated project. When updating both READMEs, ensure visual parity.
 6. **3-step quickstart.** Download → run command → tell AI. Nothing more.
 7. **No feature tables.** A simple bullet list or one sentence is enough.
 8. **Collapsible sections for platform-specific setup.** Use `<details><summary>` for Claude Code, Cursor, Copilot, Aider, etc.

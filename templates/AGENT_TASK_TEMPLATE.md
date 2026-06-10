@@ -50,6 +50,20 @@
 
 Yes/No — Document changes in `docs/vault/08_INCIDENTS_AND_FIXES.md` or relevant vault note.
 
+## 🔴 Vault Sync (MANDATORY)
+
+**Update vault files DURING work, not batched at the end.**
+
+| Agent Action | Vault File to Update | When |
+|-------------|---------------------|------|
+| Commit code | `01_CURRENT_BASELINE.md` | Immediately after commit |
+| Fix a bug | `08_INCIDENTS_AND_FIXES.md` | Immediately after fix |
+| Make decision | `02_DECISION_LOG.md` | Before implementing |
+| Add/delete files | `05_COMMANDS_AND_FILES.md` | Same commit |
+| Architecture change | `04_ARCHITECTURE.md` | Same commit |
+
+Final commit: `docs: vault sync` with `VAULT_CHANGELOG.md` entry.
+
 ## Deploy
 
 **Deploy after completion:** No (default) / Yes (requires explicit approval)

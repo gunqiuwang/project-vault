@@ -1,7 +1,7 @@
 ---
 name: project-vault
 description: "Use when starting any new project, onboarding an existing codebase, or syncing project knowledge after changes. Creates and maintains a structured knowledge vault (docs/vault/) with quality signals, orphan detection, project phases, and lifecycle management. Human-visual + agent-executable project operating system."
-version: 5.5.0
+version: 5.5.2
 author: guoku
 license: MIT
 platforms: [linux, macos, windows, wsl]
@@ -9,7 +9,7 @@ metadata:
   hermes:
     tags: [project-init, knowledge-base, documentation, onboarding, vault, agent-safety, lifecycle, schema, quality, obsidian, phases]
     related_skills: [writing-plans, requesting-code-review, codebase-inspection, plan, llm-wiki, systematic-debugging, obsidian]
-# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, iterative-development-pattern.md, readme-style-guide.md, karpathy-coding-principles.md
+# References: design-rationale.md, audit-methodology.md, obsidian-integration.md, walkthrough-two-char-diary.md, walkthrough-worldcup.md, wsl-github-push.md, wsl-github-push-proxy.md, source-documentation-pattern.md, obsidian-aliases-pattern.md, iterative-development-pattern.md, readme-style-guide.md, karpathy-coding-principles.md, vault-sync-discipline.md, espn-sports-api.md, free-sports-apis.md, content-feed-pattern.md, data-integrity-audit.md, claude-code-integration.md, github-actions-debugging.md
 ---
 
 # Project Vault — Project Operating System
@@ -83,7 +83,7 @@ During `vault init`, the phase determines which files are created. During `vault
 
 ```
 docs/vault/
-├── 00_HOME.md                          # Agent entry page + project overview
+├── 00_HOME.md                          # Agent entry page + project overview + VAULT STARTUP SYNC
 ├── 01_CURRENT_BASELINE.md              # Source of truth: branch, commit, status
 ├── 02_DECISION_LOG.md                  # Why we made key choices
 ├── 03_DO_NOT_TOUCH.md                  # 🚫 Danger zones + security rules
@@ -265,15 +265,54 @@ These are documented in `03_DO_NOT_TOUCH.md` under a "Security" section.
 
 **During `vault init`:** Agent scans `.env.example` and `.gitignore` to identify sensitive patterns, then adds them to `03_DO_NOT_TOUCH.md` automatically.
 
+## 🔴 Continuous Sync Rule (边做边更新)
+
+**The vault must be updated DURING work, NOT batched at the end.**
+
+Agents naturally focus on code and forget the vault. By the time they remember, context has been lost — commits, decisions, and incidents from earlier in the session are summarized inaccurately or omitted entirely. This defeats the vault's purpose.
+
+### Per-Action Sync Table
+
+| Agent Action | Vault Update Required | When |
+|-------------|----------------------|------|
+| Commit code | Update `01_CURRENT_BASELINE.md` (HEAD, status) | Immediately after commit |
+| Fix a bug | Append `08_INCIDENTS_AND_FIXES.md` | Immediately after fix |
+| Make architecture decision | Append `02_DECISION_LOG.md` | Before implementing |
+| Add/delete/rename files | Update `05_COMMANDS_AND_FILES.md` | Same commit |
+| Change deploy process | Update `06_DEPLOYMENT.md` | Same commit |
+| Add/remove dependencies | Update `04_ARCHITECTURE.md` | Same commit |
+| New dangerous area discovered | Update `03_DO_NOT_TOUCH.md` | Immediately |
+
+### Anti-Patterns (Forbidden)
+
+- ❌ **End-of-session batch update** — "I'll update the vault when I'm done." Context is lost by then.
+- ❌ **User reminds you** — if the user has to say "update the vault", you already failed.
+- ❌ **Code-only commits** — a commit that changes code but not the vault is incomplete.
+
+### Correct Pattern
+
+```
+1. Read vault (startup)
+2. Make code change
+3. Commit code
+4. IMMEDIATELY update affected vault file(s)
+5. Repeat 2-4 for each change
+6. Final commit: "docs: vault sync" with any remaining updates + VAULT_CHANGELOG
+```
+
+The vault commit can be a single "docs:" commit at the end that bundles all vault changes made during the session — but the FILE CONTENT must be written incrementally as work progresses, not reconstructed from memory at the end.
+
 ## Agent Task-End Rule
 
-**Every Agent task MUST end with these updates:**
+**Every Agent task MUST end with a FINAL vault check:**
 
-1. **`01_CURRENT_BASELINE.md`** — if branch, commit, or project status changed
-2. **`10_REPORT_INDEX.md`** — if any report was generated (full report → `assets/intake/reports/`)
-3. **`VAULT_CHANGELOG.md`** — append a log entry
+1. Read through ALL vault files — did every code change get reflected?
+2. Update `01_CURRENT_BASELINE.md` with final HEAD commit and status
+3. Append to `VAULT_CHANGELOG.md` with session summary
+4. If any vault file was missed during live sync, update it now
+5. Commit vault changes with prefix `docs:`
 
-No exceptions. A task that changes the project but doesn't update the vault is incomplete.
+This is the SAFETY NET. Live sync (above) should catch most updates, but the task-end rule catches anything missed.
 
 ## How Init Works
 
@@ -727,24 +766,6 @@ To prevent Obsidian Graph View from becoming a spider web, follow these rules:
 
 Without discipline, Graph View becomes unreadable after 6 months. The star structure keeps `00_HOME` as the clear center, with clean spokes to each file.
 
-## Coding Principles (Karpathy)
-
-> Inspired by [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
-> Full reference: `references/karpathy-coding-principles.md`
-
-Every agent working on a project MUST follow these 4 principles:
-
-| # | Principle | Rule |
-|---|-----------|------|
-| 1 | **Think Before Coding** | Don't assume. State assumptions. Surface tradeoffs. Ask when confused. |
-| 2 | **Simplicity First** | Minimum code that solves the problem. No speculative features. 200 lines → 50 if possible. |
-| 3 | **Surgical Changes** | Touch only what you must. Don't "improve" adjacent code. Every changed line traces to the user's request. |
-| 4 | **Goal-Driven Execution** | Define success criteria before coding. Loop until verified. "1. [Step] → verify: [check]" |
-
-**The test:** Would a senior engineer say this is overcomplicated? If yes, simplify.
-
-These principles apply to ALL agent prompt templates below. They override speed in favor of correctness.
-
 ## Agent Prompt Templates
 
 ### New Task Startup (ALWAYS first)
@@ -753,48 +774,43 @@ These principles apply to ALL agent prompt templates below. They override speed 
 Read docs/vault/00_HOME.md, docs/vault/01_CURRENT_BASELINE.md,
 docs/vault/03_DO_NOT_TOUCH.md, and docs/vault/05_COMMANDS_AND_FILES.md
 before making changes. Then read VAULT_SCHEMA.md for project rules
-and write protocol.
-
-Karpathy Principles (always apply):
-1. Think Before Coding — state assumptions, surface tradeoffs, ask when confused
-2. Simplicity First — minimum code, no speculative features
-3. Surgical Changes — touch only what's needed, every line traces to the request
-4. Goal-Driven Execution — define success criteria, loop until verified
-
-Do not change unrelated systems.
-Do not deploy unless explicitly asked.
-State your plan and success criteria before editing.
+and write protocol. Do not change unrelated systems.
+Do not deploy unless explicitly asked. Summarize your plan before editing.
 ```
 
 ### Bugfix
 
 ```
-1. Read vault. Identify the bug → verify: root cause clearly stated
-2. Propose fix with affected files (surgical, no refactoring) → verify: diff only touches bug
-3. Implement fix → verify: tests pass, `tsc --noEmit` clean
-4. Write incident report to assets/intake/reports/YYYY-MM-DD_incident-{slug}.md
-5. Update vault (08_INCIDENTS, 01_BASELINE, VAULT_CHANGELOG)
+Read vault. Identify the bug. Propose a fix with affected files.
+Do not refactor. Run tests after fix.
+【边做边更新】Immediately after fix:
+  - Append to 08_INCIDENTS_AND_FIXES.md
+  - Update 01_CURRENT_BASELINE.md
+Write incident report to assets/intake/reports/YYYY-MM-DD_incident-{slug}.md
+Add summary to 10_REPORT_INDEX.md. Set reviewed_by: agent.
 ```
 
 ### Feature
 
 ```
-1. Read vault. Identify affected modules → verify: list of files to change
-2. State assumptions and plan (Karpathy: Think Before Coding) → verify: user confirms direction
-3. Implement with surgical changes (Karpathy: Simplicity First) → verify: no unrelated edits
-4. Run tests / build → verify: all pass
-5. Update vault (01_BASELINE, 05_COMMANDS, VAULT_CHANGELOG) → verify: vault synced
+Read vault. Identify affected modules. Propose implementation plan.
+Do not touch files in 03_DO_NOT_TOUCH.md without approval.
+【边做边更新】After each commit:
+  - Update 01_CURRENT_BASELINE.md
+  - Update 05_COMMANDS_AND_FILES.md if files added/removed
+  - Update 04_ARCHITECTURE.md if structure changed
+  - Append 02_DECISION_LOG.md if decision made
+Run tests. Commit vault changes with prefix "docs:".
 ```
 
 ### Task Completion (ALWAYS last)
 
 ```
-Task complete. Now update the vault:
-1. If branch/commit/status changed → update 01_CURRENT_BASELINE.md
-2. If report generated → write to assets/intake/reports/, add summary to 10_REPORT_INDEX.md
-3. Append entry to VAULT_CHANGELOG.md
-4. Update last_updated on all changed vault files
-5. Commit vault changes with prefix "docs:"
+Task complete. Final vault check:
+1. Verify all vault files were updated DURING work (not batching!)
+2. Append entry to VAULT_CHANGELOG.md with session summary
+3. Commit vault changes with prefix "docs:"
+4. git push
 ```
 
 ### Sync
@@ -823,15 +839,82 @@ Add summary to 10_REPORT_INDEX.md.
 - **Image width: 500px** in README — `<img src="..." width="500">` not full-width.
 - **"太丑就重画，不修补"** — if the output isn't good, redo it entirely rather than patch.
 - **"不要造轮子"** — check existing skills/tools before building new ones.
-- **Don't forget to push screenshots.** Always verify `git add assets/` before push. User will call you out ("你简直是个小迷糊").
+9. **Don't forget to push screenshots.** Always verify `git add assets/` before push. User will call you out ("你简直是个小迷糊").
+10. **Screenshots must be relevant.** Never add screenshots from unrelated projects to a README. If one language README has a screenshot, the other should have the SAME one — don't add different/irrelevant images. User explicitly corrected this.
+
+## Agent Memory Discipline
+
+When an agent works on multiple projects, memory gets polluted fast. The user's explicit preference: **only two things truly matter in memory**:
+
+1. **⚠️ Work discipline** — "Before starting any project with a vault, read `00_HOME.md` + `01_CURRENT_BASELINE.md` first. Update vault DURING work, not after."
+2. **Project locations** — A compact map of every project's path + vault status.
+
+Everything else (deployment details, API quirks, hardware specs) belongs in the vault files, not in agent memory. If the agent reads `00_HOME.md` at the start of every session, it gets the full context without memory bloat.
+
+**Memory template (one entry, all projects):**
+```
+⚠️ 开工纪律：有vault→先读 00_HOME.md + 01_BASELINE.md。边做边更新vault。
+§
+项目路径：项目A=path(status) | 项目B=path(status) | ...
+```
+
+This single entry replaces dozens of scattered per-project memory entries.
+
+## Vault Sync via Git Log Diffing
+
+When vault is stale (agent forgot to update), the fastest recovery:
+
+```bash
+# 1. Find vault's last_updated date
+grep 'last_updated' docs/vault/01_CURRENT_BASELINE.md
+
+# 2. Count missing commits
+git log --oneline --since="<last_updated>" | wc -l
+
+# 3. Categorize commits (exclude chore/docs noise)
+git log --oneline --since="<last_updated>" | grep -v "chore: update" | grep -v "docs:"
+
+# 4. Map commits to vault files
+#    feat: → 04_ARCHITECTURE + 05_COMMANDS + 08_INCIDENTS
+#    fix:  → 08_INCIDENTS
+#    refactor: → 04_ARCHITECTURE
+#    remove: → 04_ARCHITECTURE + 05_COMMANDS
+#    style: → (usually skip unless major visual change)
+
+# 5. Update each file, then commit
+git add docs/vault/ && git commit -m "docs: vault sync — N commits补更新"
+```
+
+## TencentDB-Assisted Vault Maintenance
+
+When TencentDB Agent Memory is installed, use it as a vault auditor:
+
+1. **conversation_search** with project keywords → find recent discussions
+2. Compare timestamps against vault `last_updated` fields
+3. Extract decisions/incidents from conversations that weren't written to vault
+4. Auto-update vault files with the extracted information
+
+**Cron job pattern:** Run nightly, check each project's git log since vault's last_updated, auto-sync if stale. See `references/tencentdb-vault-sync.md`.
+
+## Vault Sync via Git Log Diffing
 
 ## Common Pitfalls
 
 1. **Agent skips vault read.** Enforce startup checklist from `00_HOME.md`.
-2. **Vault becomes stale.** Use `vault sync` after significant changes.
+2. **Vault becomes stale.** The #1 failure mode: agent does all work, never updates vault, user has to remind. **Fix: "边做边更新vault" — update vault files DURING work, not after.** Each code commit should have a corresponding vault update. See `09_AGENT_PROMPTS.md` CORE RULE.
+   - **Real-world example:** worldcup2026 vault was 3 days behind — 37 commits unstaged. Manual sync required updating 9 files with categorized commit analysis.
+   - **Cron auto-sync** is the sustainable fix — `staleness_threshold_days` in VAULT_SCHEMA.md determines when to trigger.
 3. **03_DO_NOT_TOUCH is too vague.** Name exact files, exact commands, exact conditions.
 4. **Inventing facts.** Write "Unknown — not verified in this pass." Set `confidence: low`.
 5. **No metadata.** Every file MUST have full frontmatter.
+6. **Orphan references.** After deleting a project file, check if vault references it.
+7. **Reports in vault.** Full reports go in `assets/intake/reports/`, not `docs/vault/`.
+8. **Secrets in vault.** Never put API keys, passwords, or internal URLs in vault files.
+9. **Hardcoded thresholds.** Staleness/review thresholds belong in `VAULT_SCHEMA.md`.
+10. **No phase awareness.** Don't create 08_INCIDENTS for an idea-phase project.
+11. **Multi-agent conflicts.** Check write protocol in `VAULT_SCHEMA.md` before editing state files.
+12. **WSL symlink doesn't work with Windows Obsidian.** `ln -sf` creates Linux symlinks that Windows can't read. Use `powershell.exe -Command "cmd /c mklink /J"` for directory junctions instead.
+13. **Obsidian default files confuse users.** `未命名.base` and `欢迎.md` are auto-created by Obsidian, not by agent-vault. Safe to delete.
 6. **Orphan references.** After deleting a project file, check if vault references it.
 7. **Reports in vault.** Full reports go in `assets/intake/reports/`, not `docs/vault/`.
 8. **Secrets in vault.** Never put API keys, passwords, or internal URLs in vault files.
@@ -842,6 +925,13 @@ Add summary to 10_REPORT_INDEX.md.
 13. **WSL symlink doesn't work with Windows Obsidian.** `ln -sf` creates Linux symlinks that Windows can't read. Use `powershell.exe -Command "cmd /c mklink /J"` for directory junctions instead.
 14. **Obsidian default files confuse users.** `未命名.base` and `欢迎.md` are auto-created by Obsidian, not by agent-vault. Safe to delete.
 15. **Agent skips vault read on session resume.** When the user says "继续做X项目" or resumes work on a known project, **read `docs/vault/00_HOME.md` FIRST** before asking questions or inspecting files. The vault exists to survive context compression. Not reading it forces the user to re-explain everything. If the vault is stale, sync it — don't ignore it.
+16. **Batching vault updates at end.** Agents write code, commit, write more code, commit — then try to reconstruct what happened for the vault at the end. By then, details are lost. **Update vault files IMMEDIATELY after each code commit.** See "Continuous Sync Rule" section. If the user has to remind you to update the vault, the workflow has failed.
+17. **Trusting MEMORY over vault for project status.** MEMORY stores cross-project facts (paths, ports, user prefs) but can go stale on project-specific status (deployment state, feature completeness, current bugs). When MEMORY says "Vercel已部署" but the vault says "待配置", **the vault wins**. Always read `01_CURRENT_BASELINE.md` for current status, not MEMORY. If MEMORY contradicts the vault, update MEMORY to match.
+18. **User says X, vault says Y — trust the vault, verify user.** When the user answers a clarification question with info that contradicts what the vault documents, **stop and verify before acting**. Example: user says "GitHub Pages" but vault says "待配置: Vercel/Cloudflare". Don't blindly add `base: '/worldcup-2026/'` — check the vault's deployment section first. The user may be misremembering or describing intent, not current state. Always cross-reference with vault before making config changes based on user-provided context.
+18. **Context compaction destroys vault-awareness.** When Hermes compresses context and summary generation fails, all session knowledge is lost. If `abort_on_summary_failure` is `false`, the agent drops to zero context and starts guessing from MEMORY. **Set `abort_on_summary_failure: true` in Hermes config.** The vault exists precisely to survive this — but only if the agent actually reads it at session start.
+19. **CLAUDE.md / AGENTS.md not created for Claude Code/Codex.** When using project-vault with external agents (Claude Code, Codex), create `CLAUDE.md` at project root pointing to vault files. Without it, external agents skip vault entirely. See `references/claude-code-integration.md`.
+20. **Vault goes stale despite "边做边更新" rule.** The #1 failure mode in practice. Agents simply forget mid-work. **Fix: VAULT STARTUP SYNC** — put a staleness check in `00_HOME.md` right after frontmatter so the agent catches drift at session start, not mid-task. See `references/vault-startup-sync-pattern.md`. Deployed to all 6 projects as of 2026-06-10.
+21. **execute_code read_file embeds line numbers.** When batch-processing vault files with `execute_code`, `read_file()` returns `1|content` format. Writing back with `write_file()` permanently embeds line numbers. **Fix:** Use `terminal("cat '<path>'")` for raw content. See `references/vault-startup-sync-pattern.md`.
 
 ## Verification Checklist
 
@@ -896,6 +986,8 @@ When creating READMEs, docs, or GitHub content for this skill:
 - **Bilingual = separate files.** `README.md` (English) + `README.zh-CN.md` (Chinese). GitHub auto-detects `zh-CN` and shows a language switcher. Don't mix languages in one file.
 - **Lead with the 30-second pitch.** What is it → one command to start → what you get. Details below.
 - **No walls of text.** Tables > paragraphs. Code blocks > descriptions.
+
+- `references/vault-tencentdb-integration.md` — how Vault + TencentDB Memory complement each other
 
 ## GitHub Sharing
 

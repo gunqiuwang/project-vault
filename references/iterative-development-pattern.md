@@ -23,6 +23,9 @@
 | v4.1 | + greenfield mode, vault upgrade/score, multi-agent protocol, security rules, project phases | 12-gap audit |
 | v4.1.1 | + cross-platform Obsidian script, WSL junction fix | Real-world test on 二字日记 |
 | v5.0 | + Graph link discipline, rename to project-vault | User: "不只是 Agent 看" |
+| v5.4.0 | + init-vault.sh v3 (multi-dir scan, full-stack, app.json pages), sync/audit scripts | Real-world on 世界杯+wasr |
+| v5.5.0 | + Karpathy coding principles (Think/Simplicity/Surgical/Goal-Driven) | Integrated from andrej-karpathy-skills |
+| v5.5.1 | + Live sync rule: vault must update DURING work, not after | User: "agent不会自己一边做一边更新vault" |
 
 ## Lessons Learned
 
@@ -35,3 +38,7 @@
 4. **Cross-platform is never free** — WSL↔Windows has specific gotchas (symlinks, UNC paths, PowerShell vs cmd). Always test on the target platform.
 
 5. **Incremental patches > full rewrites** — Used `patch` for most changes, `write_file` only when the file needed complete restructuring.
+
+6. **User workflow corrections are the highest signal** — "agent不会自己一边做项目一边更新vault" was the single most impactful correction in the v5.x cycle. The fix: enforce "live sync" as a core rule in SKILL.md (not just in agent prompts buried in 09_AGENT_PROMPTS.md). Rules only in project-specific vault files get lost when context compresses; rules in the skill itself persist.
+
+7. **External principles can be absorbed cheaply** — Karpathy's 4 coding principles (Think/Simplicity/Surgical/Goal-Driven) were integrated in one session: one reference file + patch to SKILL.md agent prompts. The value is enormous relative to the effort.
