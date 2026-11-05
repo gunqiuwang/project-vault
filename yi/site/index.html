@@ -1,0 +1,134 @@
+<title>《驿》全剧本</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+/* Layout: 左侧分集目录 + 右侧正文;窄屏时目录收成顶部一行可横滑的分集条 */
+:root {
+  --bg: #eef0f1;          /* 787 青灰底 */
+  --paper: #f8f8f6;
+  --ink: #1d2226;
+  --muted: #5d666d;
+  --line: #d3d8db;
+  --cord: #a8321f;        /* 柳树红绳: 全页唯一的强调色 */
+  --code-bg: #e5e8ea;
+  --serif: "Noto Serif SC", "Songti SC", "SimSun", serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --paper: #1c2125; --ink: #e3e6e8; --muted: #98a2a9; --line: #2f363b; --cord: #e0715c; --code-bg: #12161a; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #15191c; --paper: #1c2125; --ink: #e3e6e8; --muted: #98a2a9; --line: #2f363b; --cord: #e0715c; --code-bg: #12161a; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.75 }
+.wrap { display: grid; grid-template-columns: 232px minmax(0, 1fr); max-width: 1240px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); gap: 28px }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; padding-block: 28px; display: grid; gap: 18px; max-height: 100vh; overflow-y: auto }
+.brand { font-family: var(--serif); font-size: 30px; font-weight: 700; letter-spacing: .08em; line-height: 1.2 }
+.brand small { display: block; font-family: var(--sans); font-size: 12px; font-weight: 400; letter-spacing: .04em; color: var(--muted); margin-top: 6px }
+.eps { display: grid; gap: 2px; list-style: none; margin: 0; padding: 0 }
+.eps a { display: grid; grid-template-columns: 2.6em 1fr; align-items: baseline; padding: 6px 10px; border-radius: 6px; color: var(--ink); text-decoration: none }
+.eps a .n { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums }
+.eps a .t { font-family: var(--serif) }
+.eps a:hover { background: var(--paper) }
+.eps a[aria-current="page"] { background: var(--paper); box-shadow: inset 2px 0 0 var(--cord) }
+.eps a.todo { color: var(--muted) }
+.jump { display: grid; gap: 2px; border-top: 1px solid var(--line); padding-top: 14px }
+.jump button { all: unset; cursor: pointer; font-size: 13px; color: var(--muted); padding: 3px 10px; border-radius: 4px }
+.jump button:hover, .jump button:focus-visible { color: var(--ink); background: var(--paper) }
+main { min-width: 0; padding-block: 28px 80px }
+article { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 36px clamp(18px, 4vw, 52px) }
+article h1 { font-family: var(--serif); font-size: 32px; letter-spacing: .06em; margin: 0 0 18px; text-wrap: balance }
+article h2 { font-family: var(--serif); font-size: 22px; margin: 44px 0 12px; padding-top: 16px; border-top: 1px solid var(--line); text-wrap: balance }
+article h3 { font-family: var(--serif); font-size: 17px; margin: 28px 0 8px; color: var(--ink) }
+article p { margin: 8px 0; max-width: 46em }
+article strong { font-weight: 700 }
+article table { border-collapse: collapse; width: 100%; font-size: 13.5px; margin: 10px 0 }
+.tbl { overflow-x: auto; margin: 10px 0 }
+article th, article td { border-bottom: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top }
+article th { font-weight: 500; color: var(--muted); font-size: 12.5px; white-space: nowrap }
+article td:first-child { white-space: nowrap; font-variant-numeric: tabular-nums }
+article td:last-child { font-variant-numeric: tabular-nums }
+.code { position: relative; margin: 8px 0 16px }
+article pre { background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 0;
+  font-family: var(--mono), var(--sans); font-size: 12.5px; line-height: 1.65; white-space: pre-wrap; word-break: break-word }
+article code { font-family: var(--mono), var(--sans); font-size: .92em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px }
+article pre code { background: none; padding: 0 }
+.copy { position: absolute; top: 8px; right: 8px; font: 12px var(--sans); color: var(--muted); background: var(--paper);
+  border: 1px solid var(--line); border-radius: 5px; padding: 2px 9px; cursor: pointer }
+.copy:hover, .copy:focus-visible { color: var(--ink); border-color: var(--muted) }
+.copy.ok { color: var(--cord); border-color: var(--cord) }
+.empty { color: var(--muted); padding: 40px 0 }
+@media (max-width: 820px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 0 }
+  nav { position: static; max-height: none; padding-block: 18px 6px }
+  .eps { grid-auto-flow: column; grid-auto-columns: max-content; overflow-x: auto; padding-bottom: 6px }
+  .eps a { grid-template-columns: auto auto; gap: 6px }
+  .jump { display: none }
+  article { padding: 24px 16px }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth } }
+</style>
+
+<div class="wrap">
+  <nav aria-label="分集">
+    <div class="brand">驿<small>The Last Post Station · 全剧本</small></div>
+    <ul class="eps" id="eps"></ul>
+    <div class="jump" id="jump" aria-label="本页跳转"></div>
+  </nav>
+  <main><article id="doc"><p class="empty">正在载入……</p></article></main>
+</div>
+
+<script>
+const EPS = [
+  ["overview", "总览", "总览与通用块"],
+  ["ep01", "第一集", "题壁"], ["ep02", "第二集", "柳"], ["ep03", "第三集", "西行"], ["ep04", "第四集", "家书"],
+  ["ep05", "第五集", "胡商"], ["ep06", "第六集", "东去"], ["ep07", "第七集", "阿蘅"], ["ep08", "第八集", "孤灯"],
+  ["ep09", "第九集", "白发"], ["ep10", "第十集", "归途 · 尾声"],
+];
+const AVAILABLE = new Set(window.YI_AVAILABLE || []);
+const list = document.getElementById("eps"), doc = document.getElementById("doc"), jump = document.getElementById("jump");
+for (const [id, n, t] of EPS) {
+  const li = document.createElement("li");
+  li.innerHTML = `<a href="#${id}" data-id="${id}"><span class="n">${n}</span><span class="t">${t}</span></a>`;
+  list.appendChild(li);
+}
+async function show() {
+  const id = (location.hash || "#overview").slice(1);
+  const known = EPS.some(e => e[0] === id) ? id : "overview";
+  document.querySelectorAll(".eps a").forEach(a => { if (a.dataset.id !== known) a.removeAttribute("aria-current"); else a.setAttribute("aria-current", "page"); });
+  let md;
+  try {
+    const r = await fetch(`${known}.html`);
+    if (!r.ok) throw new Error(r.status);
+    md = await r.text();
+  } catch (e) {
+    doc.innerHTML = `<p class="empty">这一集还在写,写好后会出现在这里。</p>`;
+    jump.innerHTML = "";
+    return;
+  }
+  doc.innerHTML = md;
+  doc.querySelectorAll("table").forEach(t => { const d = document.createElement("div"); d.className = "tbl"; t.replaceWith(d); d.appendChild(t); });
+  doc.querySelectorAll("pre").forEach(pre => {
+    const box = document.createElement("div"); box.className = "code"; pre.replaceWith(box); box.appendChild(pre);
+    const b = document.createElement("button"); b.className = "copy"; b.type = "button"; b.textContent = "复制";
+    b.addEventListener("click", () => {
+      const txt = pre.innerText;
+      const done = () => { b.textContent = "已复制"; b.classList.add("ok"); setTimeout(() => { b.textContent = "复制"; b.classList.remove("ok"); }, 1400); };
+      try {
+        navigator.clipboard.writeText(txt).then(done, () => { selectText(pre); b.textContent = "已选中,按 Ctrl+C"; });
+      } catch (e) { selectText(pre); b.textContent = "已选中,按 Ctrl+C"; }
+    });
+    box.appendChild(b);
+  });
+  jump.innerHTML = "";
+  doc.querySelectorAll("h2").forEach(h => {
+    const b = document.createElement("button"); b.type = "button"; b.textContent = h.textContent;
+    b.addEventListener("click", () => h.scrollIntoView()); jump.appendChild(b);
+  });
+  window.scrollTo(0, 0);
+}
+function selectText(el) { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+addEventListener("hashchange", show);
+show();
+</script>
