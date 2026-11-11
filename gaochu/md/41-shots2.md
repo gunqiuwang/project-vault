@@ -1,0 +1,465 @@
+# 分镜脚本与生成提示词(二)
+
+第 7–12 集关键镜头。人物定妆、年代色调与统一风格见“分镜(一)”。
+
+## 第 7 集 · 面试 / 磁带 · 2017–2018 · 郑小雨、许知意
+
+关键镜头 10 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 7-01 | 1 | 特写 / 固定 | 2023 台风夜 · 蓝黑 | 香港公寓没开灯,女人的手捏住链子上的小钥匙,手机里是直播 |
+| 7-02 | 4 | 中景 / 固定 | 2017–2019 · 阴天中性 | 小会议室,面试官合上简历 |
+| 7-03 | 6 | 近景 / 固定 | 2017–2019 · 阴天中性 | 潮汕牛肉火锅店,一片牛肉被夹进对面的碗里 |
+| 7-04 | 9 | 特写 / 固定 | 2017–2019 · 阴天中性 | 手机里的庆典合影,第三排边上半张往画面外走的脸;盘子摔在地上 |
+| 7-05 | 13 | 特写 / 固定 | 2017–2019 · 阴天中性 | 小牛皮纸袋里的黑色移动硬盘,贴着写密码的便签 |
+| 7-06 | 18 | 特写 / 固定 | 2017–2019 · 阴天中性 | 病床上的老人从枕头下摸出一把小钥匙塞进女儿手心 |
+| 7-07 | 19 | 中景 / 固定 | 2017–2019 · 阴天中性 | 殡仪馆走廊,他把那张纸对折再对折,放进内袋 |
+| 7-08 | 20 | 全景 / 缓推 | 2017–2019 · 阴天中性 | 董事会长桌末端,林晚一笔签下任命书 |
+| 7-09 | 24 | 特写 / 缓推 | 2017–2019 · 阴天中性 | 台风停电的书房,蜡烛,转动的磁带,标签 8.22 |
+| 7-10 | 28 | 特写 / 固定 | 2017–2019 · 阴天中性 | 天亮,她把钥匙穿上细链子,挂在自己脖子上 |
+
+**7-01** · 场 1
+
+```
+close-up, locked-off camera. a dark Hong Kong apartment during a No.10 typhoon signal, a woman's fingers grip a tiny old key on a neck chain, a livestream glowing on a phone. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-02** · 场 4
+
+```
+medium shot, locked-off camera. a small meeting room, a short-haired interviewer closes a resume across from a nervous young woman. Characters: Lin Wan, 34, slim Chinese executive woman, short bob, white shirt, calm unreadable face; Zheng Xiaoyu, 24, earnest young Chinese woman, plain office clothes, small backpack. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-03** · 场 6
+
+```
+medium close-up, locked-off camera. a humble beef hotpot restaurant, a woman places a slice of beef into the young woman's bowl. Characters: Lin Wan, 34, slim Chinese executive woman, short bob, white shirt, calm unreadable face; Zheng Xiaoyu, 24, earnest young Chinese woman, plain office clothes, small backpack. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-04** · 场 9
+
+```
+close-up, locked-off camera. a phone showing a group photo, a half-face at the edge walking out of frame; a plate shatters on the floor. Characters: Zheng Xiaoyu, 24, earnest young Chinese woman, plain office clothes, small backpack. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-05** · 场 13
+
+```
+close-up, locked-off camera. a small black external hard drive with a password sticky note inside a kraft paper bag on a restaurant table. Characters: Zheng Xiaoyu, 24, earnest young Chinese woman, plain office clothes, small backpack. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-06** · 场 18
+
+```
+close-up, locked-off camera. a dying old man pulls a small key from under his pillow and presses it into his daughter's palm. Characters: Xu Huaishan, 75, frail Chinese tycoon in a hospital bed, sharp calculating eyes; Xu Zhiyi, 39, elegant Chinese businesswoman, black dress, controlled grief, fine chain necklace. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-07** · 场 19
+
+```
+medium shot, locked-off camera. in a funeral-home corridor a man folds a schedule sheet twice and tucks it into his suit pocket facing a woman in black. Characters: He Jun, 33, stocky Chinese man, crew cut, thick eyebrows, black suit, composed face like river-worn stone; Xu Zhiyi, 39, elegant Chinese businesswoman, black dress, controlled grief, fine chain necklace. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-08** · 场 20
+
+```
+full shot, slow push-in. at the far end of a long boardroom table, a woman signs an appointment document in one firm stroke. Characters: Lin Wan, 34, slim Chinese executive woman, short bob, white shirt, calm unreadable face; Xu Zhiyi, 39, elegant Chinese businesswoman, black dress, controlled grief, fine chain necklace; Shen Jibai, 38, tall lean Chinese chairman, graying temples, deep lines under eyes, dark suit. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-09** · 场 24
+
+```
+close-up, slow push-in. a study during a typhoon blackout, candlelight, a cassette turning in an old recorder, label reading 8.22. Characters: Xu Zhiyi, 39, elegant Chinese businesswoman, black dress, controlled grief, fine chain necklace. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**7-10** · 场 28
+
+```
+close-up, locked-off camera. at dawn a woman threads a tiny key onto a fine chain and fastens it around her neck. Characters: Xu Zhiyi, 39, elegant Chinese businesswoman, black dress, controlled grief, fine chain necklace. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+## 第 8 集 · 第二部手机 · 2019 · 春梅
+
+关键镜头 9 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 8-01 | 1 | 中景 / 固定 | 2023 台风夜 · 蓝黑 | 台风夜城中村饭桌,一碗卧了两个鸡蛋的面,对面空椅子 |
+| 8-02 | 2 | 全景 / 固定 | 2009–2012 · 钠灯橙 | 刚铺好的水泥路上的流水席,他敬酒用的是可乐 |
+| 8-03 | 9 | 中景 / 固定 | 2017–2019 · 阴天中性 | 清明坟前一罐拉开的可乐冒着气泡 |
+| 8-04 | 14 | 特写 / 缓推 | 2017–2019 · 阴天中性 | 铁皮饼干盒:碎屏诺基亚、贴着发白卡通贴纸的山寨机、一张银行卡 |
+| 8-05 | 18 | 中景 / 固定 | 2017–2019 · 阴天中性 | 阳台上他抽烟,楼下烧烤摊的烟一缕一缕往上飘 |
+| 8-06 | 19 | 中景 / 固定 | 2017–2019 · 阴天中性 | 出门前,白衬衫扣到最上面一颗 |
+| 8-07 | 22 | 长焦 / 固定 | 2017–2019 · 阴天中性 | 隔着高档小区的铁栅栏,花坛边一个人一根接一根抽烟,仰头看楼 |
+| 8-08 | 23 | 中景 / 固定 | 2017–2019 · 阴天中性 | 他低下头,两只手撑在膝盖上,肩膀在动;栅栏外她攥紧铁杆 |
+| 8-09 | 27 | 中景 / 固定 | 2017–2019 · 阴天中性 | 她从后面抱住他,他的手覆在她手上 |
+
+**8-01** · 场 1
+
+```
+medium shot, locked-off camera. a typhoon night in an urban-village flat, a bowl of noodles with two eggs on the table, an empty chair opposite. Characters: Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-02** · 场 2
+
+```
+full shot, locked-off camera. a rural Sichuan wedding banquet on a freshly paved concrete road, the groom toasts guests with cola. Characters: He Jun, 23, short stocky Chinese man from Sichuan, crew cut, thick eyebrows, mud-soaked clothes; Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. early-2010s Shenzhen, saturated sodium-orange nights, warm tungsten interiors, light grain. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-03** · 场 9
+
+```
+medium shot, locked-off camera. at a hillside grave during Qingming, an opened cola can fizzes in front of the headstone, a man crouching. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-04** · 场 14
+
+```
+close-up, slow push-in. a tin biscuit box holding a shattered Nokia wrapped in tape, a cheap phone with a faded cartoon sticker, and a bank card. Characters: Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-05** · 场 18
+
+```
+medium shot, locked-off camera. a man smokes on a balcony, barbecue smoke from the alley below drifting upward. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-06** · 场 19
+
+```
+medium shot, locked-off camera. a man leaving home in a white shirt buttoned to the very top, his wife watching from the kitchen. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-07** · 场 22
+
+```
+long-lens telephoto shot, locked-off camera. through the iron fence of an upscale compound, a man on a planter edge chain-smokes, staring up at a high floor. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-08** · 场 23
+
+```
+medium shot, locked-off camera. the man bows his head, hands on knees, shoulders shaking; outside the fence a woman's knuckles whiten on the bars. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**8-09** · 场 27
+
+```
+medium shot, locked-off camera. in a dark bedroom a woman embraces her husband from behind and his hand covers hers. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; Wang Chunmei, 32, sturdy Chinese woman from rural Sichuan, hair in a bun, simple floral blouse. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+## 第 9 集 · 反向 · 2020 · 陈默
+
+关键镜头 9 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 9-01 | 2 | 全景 / 固定 | 2020–2022 · 冷灰 | 空荡的街,红马甲大妈坐在铁栅栏后的折叠桌前 |
+| 9-02 | 7 | 中景 / 固定 | 2020–2022 · 冷灰 | 六楼门开,戴口罩的长发男人,身后墙上全是楼梯 |
+| 9-03 | 8 | 近景 / 固定 | 2020–2022 · 冷灰 | 桌上那支自动铅笔被手指拨过来,拨过去;录音笔红灯 |
+| 9-04 | 16 | 全景 / 固定 | 2020–2022 · 冷灰 | 最后一班公交,空荡荡的深南大道,亮灯却没有人的写字楼 |
+| 9-05 | 18 | 特写 / 固定 | 2020–2022 · 冷灰 | 红毛线一根一根从图钉上脱下来,垂在墙上像断了的网 |
+| 9-06 | 20 | 全景 / 缓拉 | 2020–2022 · 冷灰 | 重新系好的毛线全部往上走,最上面是效果图'深圳的新高度' |
+| 9-07 | 21 | 近景 / 固定 | 2020–2022 · 冷灰 | 她坐下,两只手夹在膝盖中间止住发抖 |
+| 9-08 | 25 | 特写 / 固定 | 2020–2022 · 冷灰 | 电脑文档第一行:这是一个关于等待的故事 |
+| 9-09 | 26 | 远景 / 固定 | 2020–2022 · 冷灰 | 窗外很远的前海,塔吊顶上的红色航标灯一闪一闪 |
+
+**9-01** · 场 2
+
+```
+full shot, locked-off camera. an empty street in early 2020, a volunteer in a red vest sits at a folding table behind a metal barrier with a thermometer gun. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-02** · 场 7
+
+```
+medium shot, locked-off camera. a sixth-floor door opens on a long-haired masked man, staircase drawings covering the wall behind him. Characters: Zhou Yu, 39, thin Chinese man, glasses, long uncut hair, stubble, blue surgical mask; Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-03** · 场 8
+
+```
+medium close-up, locked-off camera. a finger nudges a mechanical pencil back and forth on a table beside a recording pen's red light. Characters: Zhou Yu, 39, thin Chinese man, glasses, long uncut hair, stubble, blue surgical mask. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-04** · 场 16
+
+```
+full shot, locked-off camera. the last bus, a lone passenger by the window, an empty eight-lane boulevard and lit, deserted office towers. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-05** · 场 18
+
+```
+close-up, locked-off camera. red yarn pulled off pushpins one by one, hanging slack on the wall like a torn net. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-06** · 场 20
+
+```
+full shot, slow pull-back. the re-strung yarn wall, every line now leading upward to a skyscraper rendering pinned at the top. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-07** · 场 21
+
+```
+medium close-up, locked-off camera. a woman sits down and clamps her trembling hands between her knees. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-08** · 场 25
+
+```
+close-up, locked-off camera. a laptop screen with a single line of Chinese text and a blinking cursor in a dark room. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**9-09** · 场 26
+
+```
+wide shot, locked-off camera. through a window, far-off tower cranes blink red aviation lights over the harbor district. Characters: Chen Mo, 40, Chinese freelance journalist, ponytail with some gray, plain clothes, mask pulled down. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+## 第 10 集 · 面 · 2021 · 林强
+
+关键镜头 9 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 10-01 | 2 | 中景 / 固定 | 1990s 回忆 · 褪色暖调 | 1995 年乡下老屋,一碗红烧肉,女孩把自己那块拨到碗边 |
+| 10-02 | 10 | 全景 / 手持 | 2020–2022 · 冷灰 | 写字楼下几百个投资人,横幅上印着她笑着演讲的照片 |
+| 10-03 | 13 | 中景 / 固定 | 2020–2022 · 冷灰 | 老小区五楼门开,穿旧毛衣、瘦脱了形的姐姐 |
+| 10-04 | 14 | 特写 / 固定 | 2020–2022 · 冷灰 | 一张银行卡推过桌面,旁边一碗吃了一半的泡面 |
+| 10-05 | 16 | 全景 / 跟 | 2020–2022 · 冷灰 | 深夜握手楼窄巷,只有一家面馆亮着,门口大锅冒白气 |
+| 10-06 | 17 | 远景 / 固定 | 2020–2022 · 冷灰 | 隔着白气:她和一个背对镜头的男人对坐吃面,一句话不说 |
+| 10-07 | 19 | 特写 / 固定 | 2020–2022 · 冷灰 | 她把碗里最后一块牛肉夹进他的碗里 |
+| 10-08 | 21 | 主观 / 固定 | 2020–2022 · 冷灰 | 手机取景框里的面馆,大拇指悬在快门上,然后离开 |
+| 10-09 | 27 | 特写 / 固定 | 2020–2022 · 冷灰 | 手机推送:法定代表人林某投案自首 |
+
+**10-01** · 场 2
+
+```
+medium shot, locked-off camera. a poor rural home in 1995, a bowl of braised pork, a 12-year-old girl pushes her one piece to the edge of her bowl while her brother grabs more. 1990s rural memory, faded warm colors, soft vignette, gentle grain. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-02** · 场 10
+
+```
+full shot, handheld camera. hundreds of protesting investors below an office tower, a banner printed with a smiling woman giving a speech. Characters: Lin Qiang, 34, soft-faced Chinese man from a small town, cheap polo shirt, face mask. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-03** · 场 13
+
+```
+medium shot, locked-off camera. a fifth-floor door in an old walk-up opens on a gaunt woman in an old grey sweater. Characters: Lin Wan, 38, very thin Chinese woman, short hair grown out, no makeup, sunken cheeks, old grey sweater; Lin Qiang, 34, soft-faced Chinese man from a small town, cheap polo shirt, face mask. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-04** · 场 14
+
+```
+close-up, locked-off camera. a bank card slid across a bare table next to a half-eaten cup of instant noodles. Characters: Lin Wan, 38, very thin Chinese woman, short hair grown out, no makeup, sunken cheeks, old grey sweater. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-05** · 场 16
+
+```
+full shot, tracking shot following the subject. late night in a narrow urban-village alley, a single noodle shop lit, steam pouring from a big stockpot at the door. Characters: Lin Wan, 38, very thin Chinese woman, short hair grown out, no makeup, sunken cheeks, old grey sweater. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-06** · 场 17
+
+```
+wide shot, locked-off camera. seen through steam from across the alley: a woman and a man with his back to camera eat noodles in silence. Characters: Lin Wan, 38, very thin Chinese woman, short hair grown out, no makeup, sunken cheeks, old grey sweater; He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-07** · 场 19
+
+```
+close-up, locked-off camera. close on chopsticks: a woman moves the last piece of beef from her bowl into the man's bowl. Characters: Lin Wan, 38, very thin Chinese woman, short hair grown out, no makeup, sunken cheeks, old grey sweater. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-08** · 场 21
+
+```
+POV shot, locked-off camera. POV through a phone camera framing the noodle shop, a thumb hovers over the shutter, then lifts away. Characters: Lin Qiang, 34, soft-faced Chinese man from a small town, cheap polo shirt, face mask. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**10-09** · 场 27
+
+```
+close-up, locked-off camera. a phone notification about a company's legal representative surrendering to police, on a small-town balcony at night. Characters: Lin Qiang, 34, soft-faced Chinese man from a small town, cheap polo shirt, face mask. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+## 第 11 集 · 后视镜 · 2022 · 小李
+
+关键镜头 9 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 11-01 | 1 | 中景 / 固定 | 2023 台风夜 · 蓝黑 | 暴雨里的网约车,后视镜里空的后座,远处四十二层的楼 |
+| 11-02 | 3 | 特写 / 固定 | 2017–2019 · 阴天中性 | 后视镜里:后座两个男人并排坐着,一路不说话 |
+| 11-03 | 7 | 特写 / 固定 | 2020–2022 · 冷灰 | 后视镜里那张很白的脸:'限制出境' |
+| 11-04 | 10 | 中景 / 手持 | 2020–2022 · 冷灰 | 人群里矿泉水瓶砸在他额头上,他没有躲 |
+| 11-05 | 11 | 特写 / 缓推 | 2020–2022 · 冷灰 | 后视镜里,他用纸巾按住沈的伤口,低头看着那张脸 |
+| 11-06 | 14 | 特写 / 固定 | 2020–2022 · 冷灰 | 同一块后视镜里,一张睡着的脸,镜子边缘半只醒着的眼睛 |
+| 11-07 | 15 | 特写 / 固定 | 2020–2022 · 冷灰 | 膝盖上的手:攥紧,松开,攥紧 |
+| 11-08 | 19 | 中景 / 固定 | 2020–2022 · 冷灰 | 山村院子的灯下,轮椅上的父亲递出一个旧蓝布包 |
+| 11-09 | 24 | 全景 / 固定 | 2020–2022 · 冷灰 | 贴满法院封条的车中间,他一个人站着,很小 |
+
+**11-01** · 场 1
+
+```
+medium shot, locked-off camera. a ride-hailing car in torrential rain, the rear-view mirror shows an empty back seat, a 42-storey shell in the distance. Characters: Li Guoqiang, 36, Chinese chauffeur, ex-soldier posture, buzz cut, black suit, white gloves. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-02** · 场 3
+
+```
+close-up, locked-off camera. rear-view mirror shot: two men sit side by side in the back of a luxury car, silent. Characters: Shen Jibai, 38, tall lean Chinese chairman, graying temples, deep lines under eyes, dark suit; He Jun, 33, stocky Chinese man, crew cut, thick eyebrows, black suit, composed face like river-worn stone. late-2010s Shenzhen, neutral soft overcast light, muted colors. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-03** · 场 7
+
+```
+close-up, locked-off camera. rear-view mirror shot of a pale executive with eyes closed after being stopped at the border. Characters: Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face; Li Guoqiang, 36, Chinese chauffeur, ex-soldier posture, buzz cut, black suit, white gloves. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-04** · 场 10
+
+```
+medium shot, handheld camera. in a crowd of angry creditors a plastic water bottle hits a man's forehead and he does not flinch. Characters: Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-05** · 场 11
+
+```
+close-up, slow push-in. rear-view mirror: one man presses a tissue to the other's bleeding forehead and studies his face. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-06** · 场 14
+
+```
+close-up, locked-off camera. a single rear-view mirror holding a sleeping face and, at its edge, half of another man's wakeful eye. Characters: Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face; He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-07** · 场 15
+
+```
+close-up, locked-off camera. close on a man's hand on his knee in a moving car: clenching, relaxing, clenching. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-08** · 场 19
+
+```
+medium shot, locked-off camera. under a bare bulb in a mountain village courtyard, a father in a wheelchair hands his son an old blue cloth bundle of cash. Characters: Shen's father, 70s, frail Chinese villager in a wheelchair, white hair, blanket over legs; Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**11-09** · 场 24
+
+```
+full shot, locked-off camera. in an underground garage full of court-sealed cars, one man stands alone, small. Characters: Shen Jibai, 42, gaunt tall Chinese man, short hair with gray, dark jacket, pale face. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+## 第 12 集 · 四十二层 / 伸手 · 2023–2027 · 阿勇、陈默
+
+关键镜头 14 个,每个镜头生成一段 10 秒。
+
+| 镜头 | 场 | 景别 / 运动 | 色调 | 画面 |
+|---|---|---|---|---|
+| 12-01 | 1 | 中景 / 固定 | 2023 台风夜 · 蓝黑 | 铁皮宿舍里十几部手机同时亮起尖叫 |
+| 12-02 | 4 | 中景 / 固定 | 2020–2022 · 冷灰 | 开工前,楼梯口一个一个检查安全带挂钩 |
+| 12-03 | 13 | 全景 / 手持 | 2023 台风夜 · 蓝黑 | 四十二层东南角,他举着手机直播,身后是对岸香港的灯 |
+| 12-04 | 16 | 中景 / 固定 | 2023 台风夜 · 蓝黑 | 湿透的大衣男人把缠满胶带的牛皮纸袋塞进少年手里 |
+| 12-05 | 20 | 长焦 / 慢放 | 2023 台风夜 · 蓝黑 | 【三秒钟】三十层转角回望:四十二层楼板边两个人影,一前一后,像两根钢筋 |
+| 12-06 | 22 | 特写 / 固定 | 2023 台风夜 · 蓝黑 | 救护车里拆开的纸袋:一沓发灰的旧钞 |
+| 12-07 | 23 | 中景 / 固定 | 2023 台风夜 · 蓝黑 | 楼梯间出口,一个人架着另一个人的胳膊走出来 |
+| 12-08 | 25 | 远景 / 跟 | 2023 台风夜 · 蓝黑 | 他没打伞,沿着围挡一直往前走,一次也没回头 |
+| 12-09 | 31 | 全景 / 升 | 2024–2027 · 晨雾 | 复工的楼,每一层外侧挂上绿色安全网 |
+| 12-10 | 34 | 大远景 / 固定 | 2024–2027 · 晨雾 | 山坡两座坟,一间小砖房,坟前一罐可乐、一支铅笔 |
+| 12-11 | 36 | 全景 / 固定 | 2024–2027 · 晨雾 | 监狱侧门,她出来,隔着马路看着站牌下的他(不剪) |
+| 12-12 | 37 | 近景 / 固定 | 2024–2027 · 晨雾 | 公交车门口,硬币落进投币箱;'他没伸手' |
+| 12-13 | 39 | 长焦 / 慢放 | 2023 台风夜 · 蓝黑 | 【三秒钟·第二次】慢放,后面那个人影的胳膊往前动了一下,定格 |
+| 12-14 | 41 | 大远景 / 缓拉 | 2024–2027 · 晨雾 | 雾散了,他还站在那里;远处一栋楼外挂着绿网 |
+
+**12-01** · 场 1
+
+```
+medium shot, locked-off camera. inside a tin-roofed workers' dormitory a dozen phones light up at once with emergency alerts. Characters: A-Yong, 19, Chinese construction worker, round face, single eyelids, wet hair stuck to forehead, cheap raincoat. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-02** · 场 4
+
+```
+medium shot, locked-off camera. before a shift, a foreman at a stairwell checks every worker's harness hook one by one. Characters: He Jun, 37, stocky Chinese man, crew cut streaked with gray, thick eyebrows, faded work jacket; A-Yong, 19, Chinese construction worker, round face, single eyelids, wet hair stuck to forehead, cheap raincoat. 2020-2022, desaturated cold grey, fluorescent interiors, masks visible on people. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-03** · 场 13
+
+```
+full shot, handheld camera. on the open 42nd floor in the typhoon a young worker livestreams on his phone, Hong Kong lights across the bay behind him. Characters: A-Yong, 19, Chinese construction worker, round face, single eyelids, wet hair stuck to forehead, cheap raincoat. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-04** · 场 16
+
+```
+medium shot, locked-off camera. a man in a soaked overcoat presses a taped kraft-paper parcel into a young worker's hands. Characters: Shen Jibai, 43, gaunt tall Chinese man, soaked dark wool overcoat over an old worn sweater with frayed cuffs; A-Yong, 19, Chinese construction worker, round face, single eyelids, wet hair stuck to forehead, cheap raincoat; He Jun, 38, stocky Chinese man, gray-streaked crew cut, thick eyebrows, soaked faded work jacket, slightly stooped. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-05** · 场 20
+
+```
+long-lens telephoto shot, slow motion. telephoto from a stair landing far below: two silhouettes at the slab edge, one in front near the drop, one a step behind, rain blurring everything. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-06** · 场 22
+
+```
+close-up, locked-off camera. inside an ambulance, a parcel opened: bundles of cash with rubber bands, one stack of old faded grey banknotes. Characters: A-Yong, 19, Chinese construction worker, round face, single eyelids, wet hair stuck to forehead, cheap raincoat. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-07** · 场 23
+
+```
+medium shot, locked-off camera. at the stairwell exit one man supports another by the arm as they emerge into the rain. Characters: He Jun, 38, stocky Chinese man, gray-streaked crew cut, thick eyebrows, soaked faded work jacket, slightly stooped; Shen Jibai, 43, gaunt tall Chinese man, soaked dark wool overcoat over an old worn sweater with frayed cuffs. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-08** · 场 25
+
+```
+wide shot, tracking shot following the subject. a man walks away in the rain along a construction hoarding without an umbrella, never looking back. Characters: He Jun, 38, stocky Chinese man, gray-streaked crew cut, thick eyebrows, soaked faded work jacket, slightly stooped. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-09** · 场 31
+
+```
+full shot, slow crane up. the resumed tower, workers hang neat green safety nets on every floor. Characters: Xu Zhiyi, 46, elegant Chinese chairwoman, tailored navy suit, fine chain necklace with a tiny old key; Chen Mo, 47, Chinese woman, gray-streaked ponytail, plain coat, bottle of water in hand. 2024-2027, pale morning light, soft haze, low contrast, quiet. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-10** · 场 34
+
+```
+extreme wide shot, locked-off camera. a hillside with two graves and a small brick hut, a cola can and a mechanical pencil at a headstone, a man's back in the doorway. 2024-2027, pale morning light, soft haze, low contrast, quiet. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-11** · 场 36
+
+```
+full shot, locked-off camera. a woman steps out of a prison side gate and looks across the road at a man by a bus stop, held in one long take. Characters: Lin Wan, 44, thin pale Chinese woman, hair in a low ponytail, plain grey coat, small cloth bag; Zhou Yu, 46, thin Chinese man, glasses, short hair, old jacket, empty hands. 2024-2027, pale morning light, soft haze, low contrast, quiet. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-12** · 场 37
+
+```
+medium close-up, locked-off camera. at a bus door a woman drops a coin into the fare box and speaks to a breathless woman outside. Characters: Lin Wan, 44, thin pale Chinese woman, hair in a low ponytail, plain grey coat, small cloth bag; Chen Mo, 47, Chinese woman, gray-streaked ponytail, plain coat, bottle of water in hand. 2024-2027, pale morning light, soft haze, low contrast, quiet. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-13** · 场 39
+
+```
+long-lens telephoto shot, slow motion. the same telephoto silhouettes in slow motion, the rear figure's arm moves forward, freeze-frame, ambiguous: a reaching hand or a sleeve in the wind. typhoon night 2023, near-monochrome blue-black, horizontal rain, red-blue emergency lights, searchlights. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
+
+**12-14** · 场 41
+
+```
+extreme wide shot, slow pull-back. the morning haze lifts, a man still waiting at a bus stop, far away a building under construction wrapped in green safety nets. Characters: Zhou Yu, 46, thin Chinese man, glasses, short hair, old jacket, empty hands. 2024-2027, pale morning light, soft haze, low contrast, quiet. cinematic realism, 35mm film look, natural practical light, restrained composition, shallow depth of field, 2:1 widescreen, 24fps, no text, no watermark.
+```
